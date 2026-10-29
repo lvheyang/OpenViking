@@ -1,4 +1,6 @@
-# 示例：Knowledge Graph
+<a id="示例-knowledge-graph"></a>
+
+# 知识图谱
 
 将来源中的实体及其关系整理成知识图谱：实体带语义类型，关系是带类型的有向边，每条陈述和边都保留出处。输出包含实体文件和关系表：
 
@@ -20,14 +22,18 @@ Skill 源码：[examples/compile/ov-compile-skills/knowledge-graph](https://gith
 
 先确认[前置条件](01-overview.md#前置条件)，并在 OpenViking 仓库根目录运行以下命令。来源目录需替换为自己的资料目录。
 
-## 第一步：准备来源
+<a id="第一步-准备来源"></a>
+
+## 准备来源
 
 ```bash
 ov add-resource ./journal-to-the-west --to viking://resources/journal --wait
 ov ls -r viking://resources/journal
 ```
 
-## 第二步：添加 Skill
+<a id="第二步-添加-skill"></a>
+
+## 添加 Skill
 
 ```bash
 ov add-skill examples/compile/ov-compile-skills/knowledge-graph -p viking://agent/skills --wait
@@ -35,7 +41,9 @@ ov skills list
 # → viking://agent/skills/knowledge-graph
 ```
 
-## 第三步：执行编译
+<a id="第三步-执行编译"></a>
+
+## 执行编译
 
 ```bash
 ov compile \
@@ -52,7 +60,9 @@ ov task status cmp_01abc      # 查看进度与最终结果
 ov task cancel cmp_01abc      # 协作式取消
 ```
 
-## 第四步：查看产物
+<a id="第四步-查看产物"></a>
+
+## 查看产物
 
 ```bash
 ov tree viking://resources/journal-kg
@@ -60,7 +70,9 @@ ov read viking://resources/journal-kg/relations.jsonl
 ov read viking://resources/journal-kg/entities/孙悟空.md
 ```
 
-## 第五步：可视化成交互式图谱
+<a id="第五步-可视化成交互式图谱"></a>
+
+## 可视化成交互式图谱
 
 与 LLM Wiki 的脚本不同，`knowledge_graph.py` 读取的是**本地目录**（需要 `entities/` 和 `relations.jsonl` 都在本地）。所以先把产物拉到本地，再生成 HTML。
 
@@ -101,8 +113,20 @@ python examples/compile/graph-show/knowledge-graph/knowledge_graph.py \
 
 用浏览器打开 `journal-kg.html`。脚本会先做校验——`relations.jsonl` 必须是合法 JSON、每个实体文件都要有稳定的 `id` 和 `title`、每条边的两端都要能对上某个实体节点——校验不通过会直接报错并指出问题行，所以它同时也是产物质量的检查器。节点按 `entity_type` 分色分形，边显示本地化 `label`，点节点能看到该实体的正文、别名和出处。
 
+## 产物核对
+
+结构示意（非实测输出）：
+
+```text
+entities/
+  孙悟空.md
+relations.jsonl
+```
+
+实体正文应说明“孙悟空”及其来源；关系表中的 `from` 和 `to` 应能对应实体 ID。页面开头的 `member_of` JSON 是结构示意，并非本次运行结果。运行可视化脚本后，点击实体查看正文，并核对“属于”这条边的证据。
+
 ## 相关文档
 
-- [上下文编译概览](./01-overview.md)
+- [上下文编译](./01-overview.md)
 - [LLM Wiki 示例](./02-llm-wiki.md)
 - [Agent Runtime API](../api/23-agent-runtime.md)

@@ -1,4 +1,6 @@
-# 使用真实问答验证 Vikingbot 指标
+<a id="使用真实问答验证-vikingbot-指标"></a>
+
+# VikingBot 指标验证
 
 完成 [Prometheus 和 Grafana 配置](11-grafana-prometheus.md) 后，用本文验证完整链路：
 

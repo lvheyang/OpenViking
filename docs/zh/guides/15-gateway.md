@@ -14,8 +14,6 @@ OpenViking 网关是一个模型 API 代理：客户端只要能修改 Base URL�
 | 主动使用记忆 | 模型可以调用 OpenViking 工具检索、读取、写入和导入资料。工具由网关执行，客户端不用声明或实现任何工具。 |
 | 沉淀与压缩 | 网关把对话保存回 OpenViking，由 OpenViking 从中提取新记忆。对话接近模型的上下文窗口时，网关让同一个模型写摘要，替换较早的内容。 |
 
-想先直观了解网关的工作原理，可以看官网的动画演示：[openviking.ai/gateway](https://openviking.ai/gateway)。想马上接入客户端，直接看[把客户端接入 OpenViking 网关](../gateway/03-connect-clients.md)；其他任务或 Studio 标签页对应哪一页，见[下一步去哪](#next-steps)。
-
 > **注意**：OpenViking 网关目前处于 Beta 阶段。它和 VikingBot Gateway（`vikingbot gateway`）是两个组件，后者负责远程访问和聊天平台接入。
 
 ## 适合谁 {#who-it-is-for}
@@ -25,25 +23,17 @@ OpenViking 网关是一个模型 API 代理：客户端只要能修改 Base URL�
 
 网关支持三种模型 API：Anthropic Messages、OpenAI Chat Completions 和 OpenAI Responses（要求每个请求带完整历史，见[客户端要求](../gateway/04-openviking-tools.md#client-requirements)）。请求转发到你配置的模型服务地址，称为**上游**。请求用哪种 API 发来，网关就用同一种 API 转发，不做协议转换。
 
-## 关键术语 {#key-terms}
+## 接入流程
 
-网关文档的各个页面都按下表的含义使用这些术语。同一 OpenViking 账号的用户共用上游和上下文配置；网关密钥和请求日志归各个用户自己。
+1. 启用服务中的网关，打开 Studio；准备可访问的模型上游。
+2. 确认上游连接可用，选择上下文配置并签发网关密钥（`ovgw_…`）。
+3. 在客户端设置网关地址和密钥，发送请求，再验证保存、提取与新会话召回。
 
-| 术语 | 含义 | 详见 |
-| --- | --- | --- |
-| 上游 | 网关把请求转发过去的模型服务地址，连同它的 API Key；每个上游只使用三种 API 中的一种。 | [上游](../gateway/07-upstreams.md#upstreams) |
-| 上下文配置 | 一组有名字的记忆设置，例如召回预算、是否保存对话、是否开放 OpenViking 工具；每个网关密钥使用一份。 | [上下文配置](../gateway/08-context-profiles.md#context-profiles) |
-| 网关密钥 | 客户端用来代替服务商 API Key 的密钥（`ovgw_…`），绑定一位 OpenViking 用户、一份上下文配置和一组上游。 | [网关密钥](../gateway/09-gateway-keys.md#gateway-keys) |
-| OpenViking API 密钥 | 你在 OpenViking 的用户密钥：用它登录 Studio，它也决定以哪个账号、哪个用户的身份读写记忆。 | [密钥和凭证](22-gateway-operations.md#keys-and-credentials) |
-| 网关管理密钥 | 可选的密钥（`ovgm_…`）；设置后，只有带上它的请求才能修改上游和上下文配置。谁能修改什么，见[权限矩阵](../api/25-gateway.md#credentials-and-account-scope)。 | [网关管理密钥](22-gateway-operations.md#gateway-management-key) |
-| 对话 | 网关认定属于同一次聊天的一组请求；一段对话沿用开始时的上下文配置和上游。它的轮次保存到一个 OpenViking 会话，某些情况下改存到新会话，例如客户端改写历史时（见[保存状态](../gateway/10-overview-and-requests.md#saving-status)）。 | [网关如何识别对话](../gateway/03-connect-clients.md#how-conversations-are-recognized) |
-| 召回 | 从 OpenViking 搜出和当前消息相关的记忆，附加到这条消息上。 | [模型看到什么](../gateway/01-how-it-works.md#what-the-model-sees) |
-| 保存 | 把已完成的轮次写入 OpenViking 会话（晚一轮进行），供之后的提交从中提取新记忆。 | [对话什么时候保存](../gateway/01-how-it-works.md#when-conversations-are-saved) |
-| 提交 | 告诉 OpenViking 会话里已保存的轮次可以处理了：OpenViking 归档较早的轮次（会话中只留最新的消息），并在后台从中提取记忆。已保存的轮次要等提交之后才会变成记忆。 | [对话什么时候保存](../gateway/01-how-it-works.md#when-conversations-are-saved) |
-| 压缩 | 对话接近模型的上下文窗口时，让同一个模型写一份摘要，替换截断点之前的全部内容。 | [网关中的长对话](../gateway/05-long-conversations.md#long-conversations) |
-| 提示词缓存 | 服务商的计费机制：请求开头和上一次请求相同的部分按缓存价计费（通常只有原价的一小部分），从第一个不同的字节起按原价计费。 | [记忆原样放回与提示词缓存](../gateway/01-how-it-works.md#replay) |
-| 本地 dev 模式 | 以 dev 模式运行的 OpenViking 服务：绑定 `127.0.0.1`、未配置 `root_api_key`，打开 Studio 不需要 API 密钥，所有操作都以 `default` 用户身份进行。 | [本地服务](../gateway/02-quickstart.md#local-server-no-api-key) |
-| OpenViking 工具 | 你的 OpenViking 服务提供的工具（名为 `openviking_…`），由网关提供给模型，并在模型回答时由网关自己执行。 | [OpenViking 工具](../gateway/04-openviking-tools.md#agentic-memory-for-any-client) |
+首次体验可按[网关接入](../getting-started/12-gateway.md)操作并对照截图；已有服务时按[快速上手](../gateway/02-quickstart.md)选择本地或远程路径。
+
+<a id="key-terms"></a>
+
+术语与设置字段见[配置参考](../gateway/13-configuration.md#key-terms)。
 
 ## 一张图看懂架构 {#architecture-at-a-glance}
 
@@ -70,11 +60,14 @@ OpenViking 网关是一个模型 API 代理：客户端只要能修改 Base URL�
 - 补充的记忆按输入 token 计费，后续请求里大部分按缓存价计费；
 - 触发压缩的那一轮多一次模型调用。
 
-每一项在一轮对话里具体怎么发生，见[OpenViking 网关的工作原理](../gateway/01-how-it-works.md)。
+每一项在一轮对话里具体怎么发生，见[工作原理](../gateway/01-how-it-works.md)。
 
 ## 网关还是插件 {#gateway-or-plugin}
 
 OpenViking 也能以插件形式接入 Agent，例如 Claude Code、Codex、Cursor、TRAE、OpenCode、pi、DSH、OpenClaw 和 Hermes（见 [Agent 集成概览](../agent-integrations/01-overview.md)）。两者读写的是同一份 OpenViking 记忆，区别在于运行位置：网关位于模型调用的链路上，改的是模型收到的请求；插件运行在某个 Agent 内部，靠这个 Agent 的事件工作。没有哪一种总是更好，下面的差别大多由这一点决定，有些还因插件而异。
+
+<details>
+<summary>查看网关与插件的详细对比</summary>
 
 ### 逐项对比 {#gateway-and-plugin-compared}
 
@@ -94,7 +87,9 @@ OpenViking 也能以插件形式接入 Agent，例如 Claude Code、Codex、Curs
 | 团队使用 | 管理员给每人签发一个网关密钥，可以单独吊销。网关保管服务商 API Key 时，用户看不到它。 | 每人用自己的 OpenViking API 密钥安装插件。行为设置可以写进代码仓库的 `.openviking/config.json`，按仓库共享。 |
 | 出故障时 | OpenViking 不可用时，请求照常发出，只是不带记忆，保存会自动重试。网关本身停止服务时（嵌入形态即 OpenViking Server 停止时），经过它的模型调用全部失败。服务商 API Key 和尚未保存的对话文本集中存放在网关，每次模型调用也多经过一跳。 | OpenViking 不可用时，Agent 等到插件的召回超时（多数为 15 秒，Hermes 为 4 秒）后不带记忆继续；多数插件会把写入失败的内容排队存到磁盘。模型调用从不依赖 OpenViking。 |
 
-各插件的细节见 [Agent 集成能力](../agent-integrations/16-capability-reference.md)，网关的细节见 [OpenViking 网关的工作原理](../gateway/01-how-it-works.md)。
+各插件的细节见 [Agent 集成能力](../agent-integrations/16-capability-reference.md)，网关的细节见 [工作原理](../gateway/01-how-it-works.md)。
+
+</details>
 
 ### 怎么选 {#which-to-choose}
 
@@ -136,9 +131,9 @@ OpenViking 也能以插件形式接入 Agent，例如 Claude Code、Codex、Curs
 
 | 我想… | 去看 |
 | --- | --- |
-| 弄清一轮对话里发生什么、模型看到什么、为什么这样设计 | [OpenViking 网关的工作原理](../gateway/01-how-it-works.md) |
+| 弄清一轮对话里发生什么、模型看到什么、为什么这样设计 | [工作原理](../gateway/01-how-it-works.md) |
 | 从拿到网关密钥到确认记忆生效，完整走一遍 | [快速上手](../gateway/02-quickstart.md) |
-| 接入 Claude Code、Codex、聊天应用或 SDK | [把客户端接入 OpenViking 网关](../gateway/03-connect-clients.md) |
+| 接入 Claude Code、Codex、聊天应用或 SDK | [接入客户端](../gateway/03-connect-clients.md) |
 | 让模型使用记忆工具，或处理长对话 | [OpenViking 工具](../gateway/04-openviking-tools.md)和[网关中的长对话](../gateway/05-long-conversations.md) |
 | 部署、对外暴露、升级和监控网关 | [部署与运维](22-gateway-operations.md) |
 | 审查存了哪些数据、谁能看到、怎么删除 | [安全与数据](../gateway/11-security-and-data.md) |
@@ -146,20 +141,9 @@ OpenViking 也能以插件形式接入 Agent，例如 Claude Code、Codex、Curs
 | 查某项设置的名称、默认值或取值范围 | [配置参考](../gateway/13-configuration.md) |
 | 通过 HTTP 管理网关 | [管理 API](../api/25-gateway.md) |
 
-### 按 Studio 标签页查找 {#by-studio-tab}
+### Studio 操作 {#by-studio-tab}
 
-在 Studio 侧边栏打开 **OpenViking 网关**，每个标签页都有对应的文档：
-
-| 标签页 | 用途 | 文档 |
-| --- | --- | --- |
-| **概览** | 一眼看清请求量、提示词缓存、记忆召回和 OpenViking 的运行状态 | [概览](../gateway/10-overview-and-requests.md#overview) |
-| **上游** | 网关转发请求的模型服务地址 | [上游](../gateway/07-upstreams.md) |
-| **上下文配置** | 对话如何使用记忆和工具 | [上下文配置](../gateway/08-context-profiles.md) |
-| **密钥** | 签发和吊销网关密钥 | [网关密钥](../gateway/09-gateway-keys.md) |
-| **请求日志** | 每次模型请求，以及其中记忆的处理情况 | [请求日志](../gateway/10-overview-and-requests.md#requests) |
-| **接入** | 网关地址和每种客户端的具体设置 | [把客户端接入 OpenViking 网关](../gateway/03-connect-clients.md) |
-
-如果**上游**或**上下文配置**是只读的，或者 Studio 要求你**输入网关管理密钥**，见[谁能修改什么](../gateway/06-manage-in-studio.md#who-can-change-what)。
+上游、上下文配置、密钥和请求日志的界面操作见 [Studio 管理](../gateway/06-manage-in-studio.md)。
 
 ### 相关文档 {#related-docs}
 

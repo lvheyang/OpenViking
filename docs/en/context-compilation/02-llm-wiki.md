@@ -1,4 +1,6 @@
-# Example: LLM Wiki
+<a id="example-llm-wiki"></a>
+
+# LLM Wiki
 
 Organize material from different sources into a Karpathy-style LLM Wiki of interlinked Markdown pages. Each page covers an entity, concept, or question, leading with a conclusion and citing its sources. An `index.md` page provides navigation.
 
@@ -19,7 +21,9 @@ Skill source: [openviking/system_assets/compile/example-skills/llm-wiki](https:/
 
 Check the [prerequisites](01-overview.md#prerequisites) and run these commands from the OpenViking repository root. Replace the source directory with your own material.
 
-## Step 1: Prepare the sources
+<a id="step-1-prepare-the-sources"></a>
+
+## Prepare the sources
 
 If the material is not in OpenViking yet, import it. Use `ov add-resource` for directories, `ov write` for a single file:
 
@@ -39,7 +43,9 @@ Confirm the source is in place:
 ov ls -r viking://resources/research
 ```
 
-## Step 2: Add the Skill
+<a id="step-2-add-the-skill"></a>
+
+## Add the Skill
 
 This example installs the Skill under `viking://agent/skills`, matching the compile command below. Omit `-p` for a private installation, then use the returned URI in `--skill`:
 
@@ -54,7 +60,9 @@ ov skills list
 # → viking://agent/skills/llm-wiki
 ```
 
-## Step 3: Run compile
+<a id="step-3-run-compile"></a>
+
+## Run compile
 
 ```bash
 ov compile \
@@ -73,7 +81,9 @@ ov task status cmp_01abc      # progress and final result
 ov task cancel cmp_01abc      # cooperative cancel
 ```
 
-## Step 4: Inspect the output
+<a id="step-4-inspect-the-output"></a>
+
+## Inspect the output
 
 When compile finishes, the target directory holds a Markdown knowledge base. Read the navigation page first, then drill in:
 
@@ -94,7 +104,9 @@ research-wiki/
 ├── method/…  comparison/…  analysis/…
 ```
 
-## Step 5: Visualize it as an interactive graph
+<a id="step-5-visualize-it-as-an-interactive-graph"></a>
+
+## Visualize it as an interactive graph
 
 `wiki_graph.py` connects **directly to the OpenViking service** to read the Wiki pages (no local download needed), colors pages by type, links them by their cross-references, and produces a standalone interactive HTML:
 
@@ -125,8 +137,35 @@ python examples/compile/graph-show/llm-wiki/wiki_graph.py \
   -o combined.html --title "Two Knowledge Bases Side by Side"
 ```
 
+## Sample page
+
+This excerpt comes from the [Lighthouse sample page](/quickstart/wiki-output-en-v1.txt), using the onboarding tutorial data. It illustrates Wiki content rather than a fixed result for the `research` directory above. Your sources determine page content, names, and counts.
+
+```markdown
+---
+type: entity
+title: Lighthouse
+description: The fictional v1 pilot project running on an isolated network without internet access, including its offline installation, local feedback workflow, and undecided items.
+tags: [lighthouse, pilot, isolated-network]
+---
+
+# Lighthouse
+
+Lighthouse is a fictional tutorial sample (version 1) that runs as a pilot on an isolated network without internet access. It is the central project of this Wiki: its offline setup, weekly feedback loop, and preparation steps are documented below, while several dates and scope items remain unknown or undecided in the sources.
+
+## Identity and setup
+
+- Fictional tutorial sample v1; the first version runs in a pilot on an isolated network without internet access ([Lighthouse project](viking://resources/onboarding-en-v1/project/project.md)).
+- The pilot administrator prepares an offline installation package and a local storage directory ([Lighthouse project](viking://resources/onboarding-en-v1/project/project.md)).
+
+## Feedback workflow
+
+```
+
+Open the source URIs and check key facts. Clicking that page in the graph should show its corresponding text and links.
+
 ## Related docs
 
-- [Context Compilation Overview](./01-overview.md)
+- [Context compilation](./01-overview.md)
 - [Knowledge Graph example](./03-knowledge-graph.md)
 - [Agent Runtime API](../api/23-agent-runtime.md)

@@ -2,7 +2,9 @@
 description: What OpenViking Gateway stores, who can reach it, what providers see, and how data is kept, deleted and backed up.
 ---
 
-# OpenViking Gateway security and data
+<a id="openviking-gateway-security-and-data"></a>
+
+# Security and data
 
 This page is for operators and security reviewers approving a gateway deployment, and for users who want to know what the gateway keeps about them. Sessions and memories always live in OpenViking under its own rules; the gateway keeps only its settings, the state it needs to continue conversations, and metadata-only request logs, in local SQLite by default or in configured Redis storage. Each section below answers one review question and can be linked on its own.
 

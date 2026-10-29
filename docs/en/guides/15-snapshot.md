@@ -1,4 +1,6 @@
-# Snapshots (Multi-Version Management) Guide
+<a id="snapshots-multi-version-management-guide"></a>
+
+# Snapshots and recovery
 
 Snapshots save immutable versions of a selected file tree. Use `commit` to save a version, `log` to browse history, `show` to read an older file, and `restore` to recover saved content. Snapshots do not save uncommitted changes or files excluded at commit time; ACLs and vector indexes are not versioned. Restore compares the source snapshot with HEAD, so affected paths can overwrite uncommitted changes.
 

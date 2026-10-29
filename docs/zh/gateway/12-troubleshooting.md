@@ -2,7 +2,9 @@
 description: 根据现象、Studio 标签或错误码，找到 OpenViking 网关问题的原因和解决办法。
 ---
 
-# OpenViking 网关排障
+<a id="openviking-网关排障"></a>
+
+# 排障
 
 客户端报错、记忆没有补充或对话没有保存、Studio 标出异常时，都可以从这一页查起。先看三个地方：**概览**标签页上的 **OpenViking** 卡片、筛选为**异常**的**请求日志**标签页，以及 Server 日志（Docker Compose 部署用 `docker compose logs openviking`，独立网关看它自己的输出）。然后在下面的表格里找到对应现象；每一节都能单独阅读，并链接到相关设置。
 

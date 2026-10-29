@@ -1,6 +1,10 @@
-# Rules (Beta)
+<a id="rules-beta"></a>
+
+# Rules API (Beta)
 
 The Rules API compiles user-provided mandatory constraints into durable Rules and retrieves applicable rules using task context. The current interfaces are the Python HTTP SDK and HTTP API; there are no dedicated CLI, TypeScript SDK, or Go SDK methods. VikingBot includes a [rule search tool (Beta)](../guides/17-vikingbot.md).
+
+Before starting, complete the [SDK and server capability check](../workflows/02-rule-validation.md#rule-capability-check). Verify Python methods and server routes separately; if methods are missing, install the SDK from a checkout containing Rule support.
 
 Compilation and search use the authenticated user's library at `viking://user/<user_id>/memories/rules/`. See [Rules (Beta)](../concepts/17-rule-scenarios.md) for concepts and [Rule validation (Beta)](../workflows/02-rule-validation.md) for the complete workflow.
 

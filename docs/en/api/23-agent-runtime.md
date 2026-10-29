@@ -296,6 +296,12 @@ Both return an execution status, for example:
 
 The `status` is one of `pending`, `running`, `cancelling`, `completed`, `failed`, or `cancelled`. Cancellation may return `cancelling` until execution has stopped and cleanup has finished, then return `cancelled`. Repeated cancellation of a terminal task returns its current terminal state. Both inspection and cancellation must enforce task ownership.
 
+## Request and record lifecycle {#compile-request-lifecycle}
+
+Task-list cursors are signed with a process-local key and bound to the caller and filters. Restarting the service invalidates old cursors; refresh the list to start again. A cursor from one replica is not portable to another. Pagination scans stored task records rather than using an index, so read cost grows with retained history.
+
+For HTTP submission retries, reuse the same `Idempotency-Key` and request parameters; a changed request with the same key returns `409`. Recovery lasts only as long as the task record: completed/cancelled records expire 24 hours after their last update, failed records after 7 days. This is not permanent submission history or a cross-instance exactly-once guarantee. See [Agent Runtime](./23-agent-runtime.md) for submission recovery and [Tasks](./17-tasks.md) for task operations.
+
 ## Related documentation
 
 - [Background Tasks](17-tasks.md) - generic task inspection, cancellation, and listing

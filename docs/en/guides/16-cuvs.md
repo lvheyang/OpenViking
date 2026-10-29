@@ -1,4 +1,6 @@
-# NVIDIA cuVS dense search backend
+<a id="nvidia-cuvs-dense-search-backend"></a>
+
+# cuVS vector search
 
 The `cuvs` backend keeps OpenViking's embedded record store, scalar indexes, sparse retrieval, and recovery logic, while executing dense vector search with NVIDIA cuVS. cuVS 26.06 Python wheels require Python 3.11 or newer.
 

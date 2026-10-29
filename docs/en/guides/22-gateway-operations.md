@@ -11,7 +11,7 @@ This page is for the people who run OpenViking Gateway as a service: deploy it i
 **Looking for something else?** This page covers running the gateway. For everything else:
 
 - Studio tabs and settings: [Manage OpenViking Gateway in Studio](../gateway/06-manage-in-studio.md), then [Upstreams](../gateway/07-upstreams.md), [Context profiles](../gateway/08-context-profiles.md), [Gateway keys](../gateway/09-gateway-keys.md) and [Gateway overview and request log](../gateway/10-overview-and-requests.md).
-- An error, a warning or a Studio setup card: [Troubleshoot OpenViking Gateway](../gateway/12-troubleshooting.md).
+- An error, a warning or a Studio setup card: [Troubleshooting](../gateway/12-troubleshooting.md).
 - A configuration field or environment variable: [Configuration reference](../gateway/13-configuration.md).
 - What is stored, who can see it, retention and backups: [Security and data](../gateway/11-security-and-data.md).
 - OpenViking tools or long conversations: [OpenViking tools in the gateway](../gateway/04-openviking-tools.md) and [Long conversations in the gateway](../gateway/05-long-conversations.md).
@@ -471,4 +471,4 @@ New and edited upstreams follow the rules in [How the Base URL is joined](../gat
 
 - [Manage OpenViking Gateway in Studio](../gateway/06-manage-in-studio.md): add upstreams, create context profiles and issue the first gateway keys.
 - [Security and data](../gateway/11-security-and-data.md): review what the gateway stores, who can reach it, and how to back it up and delete data.
-- [Troubleshoot OpenViking Gateway](../gateway/12-troubleshooting.md): match a startup error, setup card or failed request to its fix.
+- [Troubleshooting](../gateway/12-troubleshooting.md): match a startup error, setup card or failed request to its fix.

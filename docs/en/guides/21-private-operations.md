@@ -74,3 +74,7 @@ kubectl -n vikingdb get events --sort-by=.lastTimestamp
 Provide delivery versions, timestamps, affected operations, CR conditions, relevant events, the failing doctor / P0 stage, and redacted configuration differences. Exclude kubeconfig credentials, model keys, Root/User keys, license files, full Secrets, and signed download links.
 
 An enabled collector does not establish a working monitoring platform. The package requires VictoriaMetrics / Grafana to be prepared separately through the delivery plan. Verify metric ingestion, dashboards, alert delivery, and retention. Offline licensed environments also need renewal and telemetry return arrangements under their license policy.
+
+## Business acceptance
+
+When preparing or upgrading an environment, retain a fixed sample runnable from a business client. Follow the [data-path check](03-deployment.md#data-path-check) to import, wait, retrieve, and read the source, and verify rejection without credentials in API Key mode. Use the business identity and real network endpoint, and record task IDs, source URIs, and results.

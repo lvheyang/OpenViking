@@ -76,7 +76,7 @@ content grants no additional permissions. Import roots and descendants follow
 the same rule. Existing shared content without ACL fields uses default
 inheritance without a historical data migration. Disabling the setting stops
 enforcing existing ACLs. Re-embedding or replacing an existing context record
-does not change its direct ACL unless explicitly supplied. See [ACL API](../api/12-acl.md) for creation parameters.
+does not change its direct ACL unless explicitly supplied. See [ACL](../api/12-acl.md) for creation parameters.
 
 `acl_mode` describes a resource's ACL behavior, separately from the account-wide `acl.enabled` switch:
 
@@ -171,7 +171,7 @@ ov acl set viking://resources/project-a --acl-mode restricted
 
 ## Related Documentation
 
-- [ACL API](../api/12-acl.md) - HTTP, SDK, and CLI interfaces
+- [ACL](../api/12-acl.md) - HTTP, SDK, and CLI interfaces
 - [Multi-Tenant](./11-multi-tenant.md) - Account, user, and role boundaries
 - [Viking URI](./04-viking-uri.md) - URI namespaces
 - [Retrieval](./07-retrieval.md) - Hierarchical retrieval flow

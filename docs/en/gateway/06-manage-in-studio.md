@@ -92,6 +92,6 @@ How the gateway tells conversations apart is explained in [How conversations are
 
 ## Next steps {#next-steps}
 
-- [Get started with OpenViking Gateway](02-quickstart.md): go from an empty gateway to a working key and a test request.
+- [Quickstart](02-quickstart.md): go from an empty gateway to a working key and a test request.
 - [Gateway management key](../guides/22-gateway-operations.md#gateway-management-key): set, change or reset the key that protects upstreams and context profiles.
 - [Studio shows a setup card](12-troubleshooting.md#studio-shows-a-setup-card): what to do when Studio shows a setup card instead of the gateway tabs.

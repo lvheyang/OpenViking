@@ -2,7 +2,9 @@
 description: How OpenViking Gateway handles one turn, from recall and the opening context to replay and saving, and why it works this way.
 ---
 
-# How OpenViking Gateway works
+<a id="how-openviking-gateway-works"></a>
+
+# How it works
 
 Model APIs are stateless: the client resends the whole conversation with every request, and OpenViking Gateway works inside that loop. It adds memory to each new user message, records exactly what it added and puts it back on later requests, and saves finished turns to OpenViking. This page follows one turn through those steps for readers who want the mechanics before trusting the gateway with their requests; the terms it uses are defined in [Key terms](../guides/15-gateway.md#key-terms).
 
@@ -137,6 +139,6 @@ The table explains why the gateway's main design choices were made and what they
 
 ## Next steps {#next-steps}
 
-- [Get started with OpenViking Gateway](02-quickstart.md): send a test request and watch recall and saving happen.
+- [Quickstart](02-quickstart.md): send a test request and watch recall and saving happen.
 - [OpenViking tools in the gateway](04-openviking-tools.md): choose which tools the model may run, and what users see.
 - [Long conversations in the gateway](05-long-conversations.md): set the model's context window and understand what compaction keeps.

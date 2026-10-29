@@ -1,8 +1,12 @@
-# VikingBot：OpenViking 原生 Agent
+<a id="vikingbot-openviking-原生-agent"></a>
+
+# VikingBot
 
 VikingBot 是 OpenViking 提供的多渠道 AI Agent。OpenViking 负责统一管理 Resource、Memory 和 Skill 等长期上下文；VikingBot 负责接收用户消息、组织上下文、调用模型和工具，并把任务结果交付回命令行、聊天平台或 HTTP 客户端。
 
 两者组合后，Agent 不仅能完成当前任务，还能持续积累用户记忆、会话摘要和任务经验，在后续任务中再次使用。
+
+本页说明 VikingBot 与 OpenViking 的架构分工和上下文流转。首次运行并核对回答可看[VikingBot 入门](../getting-started/11-vikingbot.md)，服务配置与渠道管理见[安装与配置](../guides/17-vikingbot.md)。
 
 ## VikingBot 与 OpenViking 的分工
 

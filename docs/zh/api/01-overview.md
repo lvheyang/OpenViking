@@ -427,7 +427,7 @@ JSON 输出 - 错误：
 | GET | `/api/v1/agent-evolution/experiences/trajectories` | 分页查询应用过指定 Experience 的 Trajectory |
 | GET | `/api/v1/agent-evolution/experiences/outcomes` | 聚合应用过指定 Experience 的 Trajectory 结果分布 |
 
-### [规则（Beta）](26-rules.md)
+### [规则接口（Beta）](26-rules.md)
 
 | 方法 | 路径 | 说明 |
 |------|------|------|

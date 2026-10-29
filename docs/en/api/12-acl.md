@@ -1,4 +1,6 @@
-# ACL API
+<a id="acl-api"></a>
+
+# ACL
 
 ACL is queried and managed through the dedicated `/api/v1/acl` endpoints for shared resources under `viking://resources/...`. See [resource access control](../concepts/15-acl.md) for inheritance rules.
 

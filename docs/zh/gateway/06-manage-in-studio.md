@@ -92,6 +92,6 @@ description: Studio 中 OpenViking 网关页面的使用方法：各标签页、
 
 ## 下一步 {#next-steps}
 
-- [OpenViking 网关快速上手](02-quickstart.md)：从空白的网关开始，拿到可用的密钥并发出测试请求。
+- [快速上手](02-quickstart.md)：从空白的网关开始，拿到可用的密钥并发出测试请求。
 - [网关管理密钥](../guides/22-gateway-operations.md#gateway-management-key)：设置、更换或重置保护上游和上下文配置的密钥。
 - [Studio 显示设置卡片](12-troubleshooting.md#studio-shows-a-setup-card)：Studio 显示设置卡片、看不到网关标签页时怎么办。

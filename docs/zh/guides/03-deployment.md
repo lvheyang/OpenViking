@@ -434,6 +434,33 @@ curl http://localhost:1933/ready
 
 在 Kubernetes 中，使用 `/health` 作为存活探针，`/ready` 作为就绪探针。各项检查的含义见[系统 API](../api/07-system.md)。
 
+## 数据链路验收 {#data-path-check}
+
+在实际业务客户端执行以下检查。先将 `OPENVIKING_CLI_CONFIG_FILE` 指向用于该环境的配置文件，包含可访问的 URL 和业务用户的 `api_key`；使用临时验收目录，避免与现有资料混合。以下命令适用于 macOS / Linux shell。
+
+```bash
+export OPENVIKING_CLI_CONFIG_FILE=/path/to/business-user.ovcli.conf
+CHECK_DIR=$(mktemp -d)
+CHECK_URI="viking://resources/deployment-check-$(date +%Y%m%d%H%M%S)"
+printf '%s\n' '# Deployment check' 'The demo feedback is exported every Friday.' > "$CHECK_DIR/check.md"
+ov add-resource "$CHECK_DIR" --to "$CHECK_URI" --wait
+ov tree "$CHECK_URI"
+ov find "When is demo feedback exported?" --uri "$CHECK_URI"
+ov read "$CHECK_URI/check/check.md"
+```
+
+导入成功后，目录应包含 `check/check.md`。检索命中该文件，读取正文应包含 `every Friday`。若任务等待超时，用返回的任务 ID 查询状态后继续；若命中 URI 与预期不同，以目录和检索返回值定位并检查实际文件。此检查证明导入、索引、远程读取与检索链路可用，不等同于容量或生成回答质量验证。
+
+已启用 API Key 认证的共享服务，还需从同一客户端验证未授权访问被拒绝。将 URL 替换为实际入口，下面的请求故意不携带密钥：
+
+```bash
+OV_SERVER_URL=https://openviking.example.com
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  "$OV_SERVER_URL/api/v1/fs/ls?uri=viking://"
+```
+
+API Key 模式下应得到 `401`，且不能返回资料列表。`/health` 可匿名访问，不能用它验证鉴权；本地 dev 模式不适用此断言。若入口代理使用其他认证协议，按该协议核对拒绝结果。验收后记录目录 URI，在 Studio 确认是本次测试资料再清理。
+
 ## 相关文档
 
 - [公网访问与反向代理](12-public-access.md) - HTTPS、Caddy、nginx

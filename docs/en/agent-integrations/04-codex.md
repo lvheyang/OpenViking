@@ -61,6 +61,17 @@ Once installed, start a new Codex session and ask it to follow https://docs.open
 
 ## Verify
 
+Check memory across two sessions, then use the status information below to diagnose problems. Keep the same service account, user, and workspace. Do not also put the test fact in project files or Agent instructions.
+
+1. In session A, tell the Agent: “Remember this demo-project convention: Lighthouse weekly reports must end with the heading ‘Next validation points’.”
+2. Confirm capture and commit using this integration's actual commit mechanism. A short conversation may not reach its automatic commit threshold; you can ask the Agent to save the convention explicitly with an OpenViking memory tool. Wait for extraction, then have it retrieve and read the stored memory and record its `viking://` URI before continuing.
+3. Start a new session B in the same workspace without pasting session A's answer. Ask: “What is the convention for the end of a Lighthouse weekly report? Search memory and cite the source.”
+4. Check that the answer includes “Next validation points” and cites the stored memory; read that source to verify its contents. The phrase is an acceptance criterion, not a captured model response.
+
+Explicit saving verifies the write-and-recall path. To verify automatic capture as well, confirm this session's capture and commit events in the logs. For missing results, check commit, extraction, identity, and search scope before recall. Keep session A so repeated writes do not hide the original failure.
+
+### Connection and capture checks
+
 Launch `codex`; on the first prompt of a session, the `SessionStart` hook should load your profile, and the plugin should then recall relevant memories for every prompt. Set `OPENVIKING_DEBUG=1` to write events to `~/.openviking/logs/codex-hooks.log`.
 For TraeCode CLI 2.0, launch `trae-cli` and use `trae-cli plugin list` to confirm the plugin is enabled.
 

@@ -2,7 +2,9 @@
 description: Point Claude Code, Codex, chat apps, SDKs and other clients at OpenViking Gateway, and check the connection.
 ---
 
-# Connect clients to OpenViking Gateway
+<a id="connect-clients-to-openviking-gateway"></a>
+
+# Connect a client
 
 This page gives the exact settings for each client and a way to check that they work. Every client needs three things: the gateway address, a gateway key (or, when the deployment turns on `openviking_keys`, the user's OpenViking API key; see [Use an OpenViking API key directly](09-gateway-keys.md#openviking-keys)), and an enabled upstream bound to that key that speaks the client's protocol and serves the model it requests. No gateway key yet? Start with [Get started](02-quickstart.md).
 
@@ -323,4 +325,4 @@ A request that does not join an existing conversation still gets memory: new mes
 
 - [Behaviors to expect](01-how-it-works.md#what-to-expect): what changes for your client once it goes through the gateway.
 - [Context profiles](08-context-profiles.md): tune how much memory is recalled and whether conversations are saved.
-- [Troubleshoot OpenViking Gateway](12-troubleshooting.md): fix errors, missing memory or unsaved conversations.
+- [Troubleshooting](12-troubleshooting.md): fix errors, missing memory or unsaved conversations.

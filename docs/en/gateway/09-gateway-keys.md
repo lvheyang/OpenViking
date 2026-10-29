@@ -100,4 +100,4 @@ Memories already in OpenViking are not affected. For the API call, account-wide 
 
 - [Connect clients](03-connect-clients.md#connect-clients): put the key into Claude Code, Codex or another client.
 - [Check the connection](03-connect-clients.md#check-the-connection): confirm requests and memory arrive.
-- [OpenViking Gateway security and data](11-security-and-data.md): what the gateway stores for each user and how long.
+- [Security and data](11-security-and-data.md): what the gateway stores for each user and how long.

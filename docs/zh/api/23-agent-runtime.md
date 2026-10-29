@@ -296,6 +296,12 @@ POST /runtime/v1/tasks/cancel
 
 `status` 可为 `pending`、`running`、`cancelling`、`completed`、`failed` 或 `cancelled`。取消请求可以先返回 `cancelling`，实际执行停止并完成清理后再返回 `cancelled`；重复取消已结束任务返回其当前终态。查询和取消均须校验任务归属。
 
+## 请求与记录生命周期 {#compile-request-lifecycle}
+
+任务列表游标使用进程内密钥签名，并绑定调用者和筛选条件。服务重启后旧游标失效，刷新列表即可重新开始。一个副本签发的游标不能直接用于另一个副本。分页扫描已存储的任务记录，不依赖索引，读取成本仍随保留的历史数量增长。
+
+重试 HTTP 提交时，复用相同的 `Idempotency-Key` 和请求参数；同一 Key 对应的参数变化时返回 `409`。提交恢复只在任务记录保留期间有效：完成或取消的记录在最后一次更新后保留 24 小时，失败记录保留 7 天。这不是永久提交历史，也不保证跨实例 exactly-once。提交恢复见 [Agent Runtime](./23-agent-runtime.md)，任务操作见[任务管理](./17-tasks.md)。
+
 ## 相关文档
 
 - [后台任务](17-tasks.md) - 通用任务查询、取消和列表接口

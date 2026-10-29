@@ -1,4 +1,6 @@
-# 指标与 Metrics
+<a id="指标与-metrics"></a>
+
+# 指标
 
 OpenViking 提供 `/metrics` 端点，用于向 Prometheus、Grafana Agent 等监控系统导出运行时指标。
 

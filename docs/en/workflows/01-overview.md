@@ -1,26 +1,34 @@
-# Application workflows
+<a id="application-workflows"></a>
 
-Complete your [first import and retrieval](../getting-started/02-quickstart.md), then choose a task below. If you use an existing agent, start with [Connect Agents](../agent-integrations/01-overview.md). If you are writing an application, choose a client through the [SDK, HTTP and CLI conventions](../api/01-overview.md).
+# Develop applications
 
-| Task | Reading order | Check the result |
+OpenViking provides searchable resources, cross-session memories, skills, and rules for applications. Choose a task, run a complete example in its guide, and check the result before integrating it into business code.
+
+## Before you start
+
+Prepare a reachable OpenViking service, credentials for the current user, and a client. You can use an existing service; for initial server and CLI setup, follow the [Quickstart](../getting-started/02-quickstart.md). Applications can use Python, TypeScript, Go SDKs, or HTTP APIs.
+
+## Choose a task
+
+| Application goal | Complete guide | Check before integration |
 | --- | --- | --- |
-| Retrieve documents or code in an application | [Import resources](../api/02-resources.md) → [Retrieve](../api/06-retrieval.md) → [Read content](../api/12-content.md) | Ask a question with a known answer, read the returned URI and compare it with the source |
-| Reuse memory across sessions | [Session and memory model](../concepts/08-session.md) → [Session API](../api/05-sessions.md) → [Memory API](../api/16-memory.md) | Commit a session, confirm background completion, then inspect the memories and their ownership |
-| Reuse agent skills | [Skills API](../api/04-skills.md) → [Privacy model](../concepts/13-privacy.md) | Inspect the installed skill, its visibility and how it is invoked |
-| Rule validation (Beta) | [Rule concepts](../concepts/17-rule-scenarios.md) → [Compile, recall, and check](./02-rule-validation.md) → [Rules API](../api/26-rules.md) | Check compilation and index tasks and source evidence, then have the Agent verify each rule's conditions, exceptions, and planned actions |
-| Produce a wiki, graph or report from sources | [Context compilation](../context-compilation/01-overview.md) → choose an output tutorial | Check task status, output files and how the output relates to the input sources |
-| Sync or migrate existing context | [Project asset sync](../guides/18-openviking-assets.md), [OVPack](../guides/09-ovpack.md) or [version recovery](../guides/15-snapshot.md) | Follow the relevant guide to verify sync state, imported data or restored content |
+| Retrieve documents or code | [Resource retrieval](../getting-started/08-resources.md) | Import completes, matched URIs can be read, answers agree with sources |
+| Reuse context in another session | [Use memory](../getting-started/09-memory.md) | Commit and extraction complete, a new session finds and uses the memory |
+| Reuse a task method | [Use skills](../getting-started/10-skills.md) | The skill is visible and the Agent reads and applies it |
+| Check explicit constraints | [Rule validation](02-rule-validation.md) | Compilation and indexing complete; the Agent checks actual evidence |
+| Produce a Wiki, graph, or report | [Context compilation](../context-compilation/01-overview.md) | Output is readable and conclusions or relations trace back to sources |
+| Migrate existing resources | [Import and export](../getting-started/15-transfer.md) | The target service can read and retrieve imported content |
 
-## Verify retrieval before wiring it into an application
+## Integrate into an application
 
-Use a small document with known content. Import it, wait for processing, retrieve a match and read the source. A successful health check only confirms the service can respond; an empty search result alone does not prove ingestion failed. Use [background tasks](../api/17-tasks.md) and [diagnostic tools](../guides/05-observability.md) to distinguish processing state from retrieval results.
+After completing a workflow with fixed samples, substitute business data and retain task IDs, matched URIs, and errors. Wait for asynchronous processing before reading its output. Keep User and Peer scope aligned with the caller. A successful API response does not establish factual answer quality.
 
-Add [Resource Watches](../api/15-watches.md) when remote sources need recurring updates. To change content processing, see [prompt customization](../guides/10-prompt-guide.md).
+<a id="verify-retrieval-before-wiring-it-into-an-application"></a>
+<a id="verify-memory-across-sessions"></a>
+<a id="add-access-control-and-operations-before-rollout"></a>
 
-## Verify memory across sessions
+## Next steps
 
-Decide the [user, Peer and shared-context boundaries](../concepts/11-multi-tenant.md) before recording messages and committing sessions. Extraction depends on configuration and policy; a successful commit does not guarantee a particular memory will be created. Inspect the output through the [Session API](../api/05-sessions.md) and [Memory API](../api/16-memory.md). For existing tools, check the [integration capability comparison](../agent-integrations/16-capability-reference.md) to learn which steps the plugin automates.
-
-## Add access control and operations before rollout
-
-Shared services need [authentication](../guides/04-authentication.md) and [ACLs](../concepts/15-acl.md). Find deployment, monitoring and upgrade paths in [Deploy & Operate](../guides/00-overview.md). For parameters, responses and errors, use the [reference index](../reference/01-overview.md).
+- [SDK, HTTP and CLI conventions](../api/01-overview.md): choose a client and check authentication, responses, and errors.
+- [Deploy and operate](../guides/00-overview.md): verify persistence, access control, observation, and recovery before rollout.
+- [Project asset sync](../guides/18-openviking-assets.md): keep sources current; [Snapshots and recovery](../guides/15-snapshot.md): retain and restore versions.

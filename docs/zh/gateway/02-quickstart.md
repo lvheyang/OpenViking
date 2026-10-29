@@ -2,9 +2,11 @@
 description: 开启 OpenViking 网关，签发网关密钥，发送测试请求并确认记忆生效。
 ---
 
-# OpenViking 网关快速上手
+<a id="openviking-网关快速上手"></a>
 
-跟着本页走完，你会从一套能正常工作的 OpenViking 服务出发，拿到一个[网关密钥](../guides/15-gateway.md#key-terms)，经网关发出一次测试请求，并亲眼确认记忆生效。开始前，`ov.conf` 中需要已经配好 embedding 和 VLM 模型（见[快速开始](../getting-started/02-quickstart.md)）。网关包含在核心包中，不需要另外安装。
+# 快速上手
+
+跟着本页走完，你会从一套能正常工作的 OpenViking 服务出发，拿到一个网关密钥（客户端访问网关时使用的 `ovgw_…` 密钥），经网关发出一次测试请求，并亲眼确认记忆生效。开始前，`ov.conf` 中需要已经配好 embedding 和 VLM 模型（见[快速开始](../getting-started/02-quickstart.md)）。网关包含在核心包中，不需要另外安装。
 
 先按服务端的情况选一条路径：
 
@@ -20,7 +22,7 @@ description: 开启 OpenViking 网关，签发网关密钥，发送测试请求�
 
 1. **开启网关。** 运行 `openviking-server init`，在 **Enable OpenViking Gateway on the same port?** 处回答 yes；已有配置时，在菜单中选择 **Update gateway**。也可以手动把 `{"gateway": {"enabled": true}}` 合并进 `ov.conf`。
 2. **启动或重启 `openviking-server`。** 网关和 OpenViking 共用同一个端口，地址是 `http://127.0.0.1:1933/gateway`。
-3. **在 Studio 中打开网关。** 打开 <http://127.0.0.1:1933/studio/>，在侧边栏选择 **OpenViking 网关**。默认账号还没有[上游](../guides/15-gateway.md#key-terms)时，网关启动时会把服务端的 VLM 配置导入为上游，并创建一份上下文配置。此时“概览”标签页的**快速开始**清单应该已经完成了前两步（见[快速开始清单和快速模式](06-manage-in-studio.md#get-started-checklist)）。导入的 Coding Plan 上游需要你确认后才能使用，见[导入 OpenViking 模型配置](07-upstreams.md#import-openviking-model-settings)；没有可导入的配置时，按[上游](07-upstreams.md#upstreams)手动添加。
+3. **在 Studio 中打开网关。** 打开 <http://127.0.0.1:1933/studio/>，在侧边栏选择 **OpenViking 网关**。默认账号还没有上游（模型服务地址及其凭据）时，网关启动时会把服务端的 VLM 配置导入为上游，并创建一份上下文配置。此时“概览”标签页的**快速开始**清单应该已经完成了前两步（见[快速开始清单和快速模式](06-manage-in-studio.md#get-started-checklist)）。导入的 Coding Plan 上游需要你确认后才能使用，见[导入 OpenViking 模型配置](07-upstreams.md#import-openviking-model-settings)；没有可导入的配置时，按[上游](07-upstreams.md#upstreams)手动添加。
 4. **签发网关密钥。** 在“概览”标签页的**快速模式**卡片中点**一键生成密钥**；也可以手动签发：在“密钥”标签页点**签发密钥**，填写名称，选择上下文配置和上游，然后签发。随后会弹出**复制网关密钥**对话框，显示完整的 `ovgw_…` 密钥。密钥只显示这一次，关闭对话框前务必复制。
 
 网关地址是 `http://127.0.0.1:1933/gateway`。接下来[发送测试请求](#send-a-test-request)。
@@ -90,6 +92,16 @@ curl -s "$GATEWAY_URL/v1/chat/completions" \
 3. **记忆已提取。** 对话停顿达到**最新回复等待时长**（默认 10 分钟）后，网关提交会话，OpenViking 在后台提取记忆，需要稍等片刻。然后换一个会话值开始新对话，问一个依赖这条记忆的问题，例如“你的回答应该多长？”。**记忆**列应显示召回的条数，回复也应该用上了这条记忆。
 
 如果**记忆**列一直为空，或者看不到会话，见[没有补充记忆](12-troubleshooting.md#no-memory-is-added)和[OpenViking 中看不到对话](12-troubleshooting.md#conversations-do-not-appear-in-openviking)。
+
+### 对照记忆与回答
+
+测试请求中保存的是“喜欢简短的回答”。新会话中的回答应表达同一偏好，例如“我会简短回答”；这是结果判据，具体措辞由模型生成。将新请求的 `messages` 限定为当前问题，使用新的 `X-OpenViking-Session`，避免把上一段对话直接传回模型而误判为召回。
+
+在 Studio 中分别核对：原会话已保存、记忆已生成、新请求出现召回记录、回答使用了该偏好。来源计数只能证明有内容被补充，不能单独证明答案正确。对照实际记忆正文；未记录的字数上限或其他偏好应视为无依据细节。
+
+下面是入门演示的保存检查界面，用于定位会话与记忆状态，不代表上面请求的实测回复。
+
+![网关入门演示中的对话保存检查](../../images/quickstart/gateway/capture-zh.jpg)
 
 ## 下一步 {#next-steps}
 

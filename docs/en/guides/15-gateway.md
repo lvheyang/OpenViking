@@ -14,8 +14,6 @@ While it forwards a request, the gateway does three things:
 | Model-driven memory | The model can call OpenViking tools to search, read, write and import material. The gateway runs the tools, so the client does not declare or implement any of them. |
 | Saving and compaction | The gateway saves conversations to OpenViking, which extracts new memories from them. When a conversation nears the model's context window, the gateway has the same model write a summary that replaces the earlier part. |
 
-For an animated walkthrough of how the gateway works, see [openviking.ai/gateway](https://openviking.ai/gateway). To connect a client right away, go to [Connect clients](../gateway/03-connect-clients.md); to find the page for any other task or Studio tab, see [Where to go next](#next-steps).
-
 > **Note**: OpenViking Gateway is in beta. It is a different component from VikingBot Gateway (`vikingbot gateway`), which handles remote access and chat platforms.
 
 ## Who it is for {#who-it-is-for}
@@ -25,25 +23,17 @@ For an animated walkthrough of how the gateway works, see [openviking.ai/gateway
 
 The gateway supports three model APIs: Anthropic Messages, OpenAI Chat Completions and OpenAI Responses (when every request carries the full history; see [Client requirements](../gateway/04-openviking-tools.md#client-requirements)). It forwards each request to a model endpoint you configure, called an **upstream**. A request goes out in the same API it came in; the gateway never converts between APIs.
 
-## Key terms {#key-terms}
+## Connection flow
 
-Every gateway page uses these terms in exactly this sense. Users in an OpenViking account share its upstreams and context profiles; gateway keys and request logs belong to individual users.
+1. Enable the gateway and open Studio; prepare a reachable model upstream.
+2. Test the upstream, select a context profile, and issue a gateway key (`ovgw_…`).
+3. Set the client address and key, send a request, then check saving, extraction, and recall in a new conversation.
 
-| Term | What it means | Explained in |
-| --- | --- | --- |
-| Upstream | A model endpoint the gateway forwards requests to, with its API key; each upstream speaks exactly one of the three APIs. | [Upstreams](../gateway/07-upstreams.md#upstreams) |
-| Context profile | A named set of memory settings, such as the recall budget, whether conversations are saved and whether OpenViking tools are offered; each gateway key uses one. | [Context profiles](../gateway/08-context-profiles.md#context-profiles) |
-| Gateway key | The key (`ovgw_…`) a client uses in place of the provider API key; it binds one OpenViking user, one context profile and a set of upstreams. | [Gateway keys](../gateway/09-gateway-keys.md#gateway-keys) |
-| OpenViking API key | Your OpenViking user key: it signs you in to Studio and decides which account and user memory is read and written as. | [Keys and credentials](22-gateway-operations.md#keys-and-credentials) |
-| Gateway management key | An optional key (`ovgm_…`); once set, only requests that carry it can change upstreams and context profiles. Who may change what is in the [access matrix](../api/25-gateway.md#credentials-and-account-scope). | [Gateway management key](22-gateway-operations.md#gateway-management-key) |
-| Conversation | The requests the gateway treats as one chat; a conversation keeps the context profile and upstream it started with. Its turns are saved to an OpenViking session, and to a new one in some cases, for example when the client rewrites the history (see [Saving status](../gateway/10-overview-and-requests.md#saving-status)). | [How conversations are recognized](../gateway/03-connect-clients.md#how-conversations-are-recognized) |
-| Recall | Searching OpenViking for memory related to the current message and appending it to that message. | [What the model sees](../gateway/01-how-it-works.md#what-the-model-sees) |
-| Saving | Writing finished turns to an OpenViking session, one turn behind, so a later commit can turn them into memories. | [When conversations are saved](../gateway/01-how-it-works.md#when-conversations-are-saved) |
-| Commit | Telling OpenViking that the saved turns in a session are ready: it archives the older turns, keeping the newest messages in the session, and extracts memories from them in the background. A saved turn becomes memory only after a commit. | [When conversations are saved](../gateway/01-how-it-works.md#when-conversations-are-saved) |
-| Compaction | When a conversation nears the model's context window, the same model writes a summary that replaces everything before the cut. | [Long conversations in the gateway](../gateway/05-long-conversations.md#long-conversations) |
-| Prompt caching | A provider billing feature: the part of a request that matches the start of the previous request is billed at the cached rate, usually a small fraction of the full rate, and everything from the first differing byte on at the full rate. | [Replay and prompt caching](../gateway/01-how-it-works.md#replay) |
-| Local dev mode | An OpenViking server running in dev mode: bound to `127.0.0.1` with no `root_api_key`, so Studio needs no API key and everything runs as the `default` user. | [Local server](../gateway/02-quickstart.md#local-server-no-api-key) |
-| OpenViking tools | The tools your OpenViking server provides (named `openviking_…`), which the gateway offers to the model and runs itself while the model answers. | [OpenViking tools](../gateway/04-openviking-tools.md#agentic-memory-for-any-client) |
+For a first experience with screenshots, follow [Gateway integration](../getting-started/12-gateway.md). For an existing service, choose the local or remote path in [Quickstart](../gateway/02-quickstart.md).
+
+<a id="key-terms"></a>
+
+For terminology and settings, see the [configuration reference](../gateway/13-configuration.md#key-terms).
 
 ## Architecture at a glance {#architecture-at-a-glance}
 
@@ -70,11 +60,14 @@ What it costs:
 - added memory is billed as input tokens, mostly at the cached rate on later requests;
 - the turn that triggers compaction makes one extra model call.
 
-For how each of these works, turn by turn, see [How OpenViking Gateway works](../gateway/01-how-it-works.md).
+For how each of these works, turn by turn, see [How it works](../gateway/01-how-it-works.md).
 
 ## Gateway or plugin? {#gateway-or-plugin}
 
 OpenViking also connects to agents through plugins, such as those for Claude Code, Codex, Cursor, TRAE, OpenCode, pi, DSH, OpenClaw and Hermes (see [Choose an integration](../agent-integrations/01-overview.md)). Both read and write the same OpenViking memory. What separates them is where they run: the gateway sits on the model call path and changes the request the model receives, while a plugin runs inside one agent and works through that agent's events. Neither is better in general; most differences below follow from that one fact, and some vary from plugin to plugin.
+
+<details>
+<summary>Compare gateway and plugin behavior</summary>
 
 ### Side by side {#gateway-and-plugin-compared}
 
@@ -94,7 +87,9 @@ OpenViking also connects to agents through plugins, such as those for Claude Cod
 | Teams | An admin issues one gateway key per person and can revoke each one. Users never see the provider key when the gateway holds it. | Each person installs the plugin with their own OpenViking API key. Behavior settings can be shared per repository in `.openviking/config.json`. |
 | When something fails | Without OpenViking, requests go on without memory and saving retries. If the gateway is down (for the embedded form, the OpenViking Server), every model call through it fails. It holds provider keys and unsaved text centrally, and adds one network hop to every model call. | Without OpenViking, the agent goes on without memory after the plugin's recall timeout (15 seconds for most, 4 for Hermes); most plugins queue failed writes on disk. Model calls never depend on OpenViking. |
 
-The [capability reference](../agent-integrations/16-capability-reference.md) has the per-plugin details; [How OpenViking Gateway works](../gateway/01-how-it-works.md) has the gateway's.
+The [capability reference](../agent-integrations/16-capability-reference.md) has the per-plugin details; [How it works](../gateway/01-how-it-works.md) has the gateway's.
+
+</details>
 
 ### Which to choose {#which-to-choose}
 
@@ -136,7 +131,7 @@ OpenViking MCP tools alone, without a plugin, do not count. The gateway still ad
 
 | I want to… | Go to |
 | --- | --- |
-| Understand what happens in a turn, what the model sees and why it works this way | [How OpenViking Gateway works](../gateway/01-how-it-works.md) |
+| Understand what happens in a turn, what the model sees and why it works this way | [How it works](../gateway/01-how-it-works.md) |
 | Try it end to end, from a gateway key to proof that memory works | [Get started](../gateway/02-quickstart.md) |
 | Connect Claude Code, Codex, a chat app or an SDK | [Connect clients](../gateway/03-connect-clients.md) |
 | Let the model use memory tools, or handle long conversations | [OpenViking tools](../gateway/04-openviking-tools.md) and [Long conversations in the gateway](../gateway/05-long-conversations.md) |
@@ -146,20 +141,9 @@ OpenViking MCP tools alone, without a plugin, do not count. The gateway still ad
 | Look up a setting's name, default or range | [Configuration reference](../gateway/13-configuration.md) |
 | Manage the gateway over HTTP | [Management API](../api/25-gateway.md) |
 
-### By Studio tab {#by-studio-tab}
+### Studio operations {#by-studio-tab}
 
-In Studio, open **OpenViking Gateway** in the sidebar. Each tab has its own page:
-
-| Tab | What it is for | Page |
-| --- | --- | --- |
-| **Overview** | Requests, prompt caching, memory and the health of OpenViking at a glance | [Overview](../gateway/10-overview-and-requests.md#overview) |
-| **Upstreams** | The model endpoints the gateway forwards requests to | [Upstreams](../gateway/07-upstreams.md) |
-| **Profiles** | Context profiles: how conversations use memory and tools | [Context profiles](../gateway/08-context-profiles.md) |
-| **Keys** | Issuing and revoking gateway keys | [Gateway keys](../gateway/09-gateway-keys.md) |
-| **Requests** | Each model request and what happened to memory in it | [Request log](../gateway/10-overview-and-requests.md#requests) |
-| **Connect** | The gateway address and exact settings for each client | [Connect clients](../gateway/03-connect-clients.md) |
-
-If **Upstreams** or **Profiles** is read-only, or Studio asks you to **Enter gateway management key**, see [Who can change what](../gateway/06-manage-in-studio.md#who-can-change-what).
+For upstreams, context profiles, keys, and request logs, see [Manage in Studio](../gateway/06-manage-in-studio.md).
 
 ### Related docs {#related-docs}
 

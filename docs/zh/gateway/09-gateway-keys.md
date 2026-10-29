@@ -47,7 +47,7 @@ description: 签发把客户端接入 OpenViking 网关的网关密钥，并在�
 6. 点**签发密钥**。网关会先向 OpenViking 核实这位用户的 OpenViking API 密钥，成功后会弹出**复制网关密钥**对话框。如果看到的是**无法签发密钥**，见[签发密钥失败](12-troubleshooting.md#issuing-a-key-fails)。
 7. 点**复制网关密钥**，再复制 Claude Code、Codex CLI 或聊天客户端的配置，里面已经填好真实密钥和网关地址。某个客户端的配置页提示这把密钥没有已启用的对应协议上游时，该客户端用不了这把密钥。复制完点**我已复制**。
 
-密钥签发后立即可用。**复制网关密钥**对话框是唯一一次能看到完整密钥的机会：网关只保存它的哈希和开头几个字符。密钥丢了就重新签发。其他客户端的接入方式见[把客户端接入 OpenViking 网关](03-connect-clients.md#connect-clients)。
+密钥签发后立即可用。**复制网关密钥**对话框是唯一一次能看到完整密钥的机会：网关只保存它的哈希和开头几个字符。密钥丢了就重新签发。其他客户端的接入方式见[接入客户端](03-connect-clients.md#connect-clients)。
 
 ### 密钥给谁用 {#who-the-key-is-for}
 
@@ -98,6 +98,6 @@ description: 签发把客户端接入 OpenViking 网关的网关密钥，并在�
 
 ## 下一步 {#next-steps}
 
-- [把客户端接入 OpenViking 网关](03-connect-clients.md#connect-clients)：把密钥填进 Claude Code、Codex 或其他客户端。
+- [接入客户端](03-connect-clients.md#connect-clients)：把密钥填进 Claude Code、Codex 或其他客户端。
 - [检查接入是否生效](03-connect-clients.md#check-the-connection)：确认请求和记忆都已到达。
-- [OpenViking 网关安全与数据](11-security-and-data.md)：网关为每位用户保存什么、保存多久。
+- [安全与数据](11-security-and-data.md)：网关为每位用户保存什么、保存多久。

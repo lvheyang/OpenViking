@@ -1,4 +1,6 @@
-# Snapshots (Multi-Version Management)
+<a id="snapshots-multi-version-management"></a>
+
+# Snapshot API
 
 Snapshots save immutable versions of a selected file tree. Use `commit` to save a version, `log` to browse history, `show` to read an older file, `diff` to compare file contents, `diff-paths` to list changed files, and `restore` to recover saved content. Uncommitted or excluded files are outside the recovery scope; ACLs and vector indexes are not versioned.
 

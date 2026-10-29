@@ -1,8 +1,12 @@
-# VikingBot: OpenViking's Native Agent
+<a id="vikingbot-openviking-s-native-agent"></a>
+
+# VikingBot
 
 VikingBot is a multi-channel AI Agent provided by OpenViking. OpenViking manages long-term context such as Resources, Memories, and Skills; VikingBot receives user messages, assembles context, invokes models and tools, and delivers results to a command line, chat platform, or HTTP client.
 
 Together, they allow an Agent not only to complete the current task, but also to accumulate user memories, session summaries, and task experience for future work.
+
+This page explains the architecture and context flow between VikingBot and OpenViking. For a first run and answer verification, use [VikingBot onboarding](../getting-started/11-vikingbot.md); for service and channel configuration, use [Installation and configuration](../guides/17-vikingbot.md).
 
 ## Responsibilities of VikingBot and OpenViking
 

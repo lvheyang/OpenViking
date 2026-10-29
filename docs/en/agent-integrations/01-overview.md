@@ -2,6 +2,14 @@
 
 OpenViking can act as the long-term memory and context backend for many agent runtimes. Pick the integration that matches your agent.
 
+<a id="prerequisite-for-all-integrations"></a>
+
+## Before you start
+
+Every integration on this page connects to a running OpenViking server. If you don't have one yet, follow the [Quickstart Guide](../getting-started/02-quickstart.md). The default endpoint is `http://localhost:1933`; remote use requires an API key (see [Authentication](../guides/04-authentication.md)).
+
+With a service URL and user API key, start with [One-click setup](../getting-started/07-agent-onboarding.md), then use the table for client details. The installer connects to an existing service; it does not provision a cloud service.
+
 ## Which integration should I use?
 
 | If you use… | Use this |
@@ -9,12 +17,12 @@ OpenViking can act as the long-term memory and context backend for many agent ru
 | **Claude Code** | [Claude Code Memory Plugin](./02-claude-code.md) — auto-recall + auto-capture via hooks |
 | **OpenClaw** | [OpenClaw Plugin](./03-openclaw.md) — context-engine with full lifecycle integration |
 | **Codex / TraeCode CLI 2.0** | [Codex Memory Plugin](./04-codex.md) — lifecycle hooks for auto-recall and incremental capture |
-| **Cursor** | [Cursor Memory Integration](./12-cursor.md) — one command installs lifecycle hooks, MCP tools, rules, and skills |
-| **TRAE / TRAE CN** | [TRAE Memory Integration](./13-trae.md) — one installer configures prompt-time recall, turn capture, and OpenViking tools |
-| **DeepSeek Harness (`dsh`) / DeepSeek Harness Desktop** | [DeepSeek Harness Memory Bundle](./17-dsh.md) — in-process Cordis plugin with pre-step recall, event capture, and the OpenViking MCP tools |
+| **Cursor** | [Cursor Memory Integration](./12-cursor.md) — Hooks · MCP · Skills |
+| **TRAE / TRAE CN** | [TRAE Memory Integration](./13-trae.md) — Hooks · MCP tools |
+| **DeepSeek Harness (`dsh`) / DeepSeek Harness Desktop** | [DeepSeek Harness Memory Bundle](./17-dsh.md) — Recall · capture · MCP tools |
 | **Hermes Agent** | [Hermes Agent](./05-hermes.md). Memory plugin with automatic capture and recall. Older releases include a built-in provider. |
-| **OpenCode** | [OpenCode Plugin](./10-opencode.md) — MCP tools plus lifecycle hooks for repo context, auto-recall, and capture |
-| **pi** | [pi Coding Agent Extension](./11-pi.md) — native extension with auto-recall, turn capture, threshold commit, and the server's MCP tools registered as native pi tools |
+| **OpenCode** | [OpenCode Plugin](./10-opencode.md) — Recall · capture · MCP tools |
+| **pi** | [pi Coding Agent Extension](./11-pi.md) — Recall · capture · MCP tools |
 | **LangChain / LangGraph** | [LangChain and LangGraph](./07-langchain-langgraph.md) — retriever, tools, context backend, store, and middleware |
 | **VikingBot** | [VikingBot Installation and Configuration](../guides/17-vikingbot.md) — built-in Agent with the `openviking_rule_search` tool (Beta) |
 | **Multiple local coding agents / a desktop UI** | [OpenViking Helper](./14-openviking-helper.md) — visual agent setup, session inspection, and memory management |
@@ -32,10 +40,6 @@ For the concrete differences between integrations — tool surface, automatic re
 ## Developing and maintaining plugins
 
 To add or maintain an integration, follow the [Hook + MCP Agent Plugin Development and Maintenance Standard](./18-plugin-development.md). When using VibeCoding, require your coding agent to read and follow it before making changes, using Claude Code, Codex, and other existing plugins as implementation references.
-
-## Prerequisite for all integrations
-
-Every integration on this page connects to a running OpenViking server. If you don't have one yet, follow the [Quickstart Guide](../getting-started/02-quickstart.md). The default endpoint is `http://localhost:1933`; remote use requires an API key (see [Authentication](../guides/04-authentication.md)).
 
 ## Low-latency recall
 

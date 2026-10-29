@@ -2,7 +2,9 @@
 description: OpenViking 网关如何处理一轮对话：召回、对话开头的内容、原样放回、保存，以及背后的设计取舍。
 ---
 
-# OpenViking 网关的工作原理
+<a id="openviking-网关的工作原理"></a>
+
+# 工作原理
 
 模型 API 是无状态的：客户端每次请求都把整段对话重新发一遍，OpenViking 网关就在这个循环里工作。它为每条新的用户消息补充记忆，记下补充的原文并在之后的请求里原样放回，再把完成的轮次保存到 OpenViking。本页沿着一轮对话讲清这几步，适合想先弄懂机制、再把请求交给网关的读者；文中术语的定义见[关键术语](../guides/15-gateway.md#key-terms)。
 
@@ -137,6 +139,6 @@ Relevant memory from OpenViking. It is this user's own saved history (past conve
 
 ## 下一步 {#next-steps}
 
-- [OpenViking 网关快速上手](02-quickstart.md)：发一个测试请求，亲眼看到召回和保存。
+- [快速上手](02-quickstart.md)：发一个测试请求，亲眼看到召回和保存。
 - [网关中的 OpenViking 工具](04-openviking-tools.md)：选择允许模型执行哪些工具，了解用户会看到什么。
 - [网关中的长对话](05-long-conversations.md)：设置模型的上下文窗口，弄清压缩会保留什么。

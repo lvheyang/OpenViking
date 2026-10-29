@@ -1,4 +1,6 @@
-# Working Memory 默认关闭
+<a id="working-memory-默认关闭"></a>
+
+# Working Memory 升级
 
 OpenViking 现在默认 `working_memory.enabled=false`。commit 仍会保存原始消息并调度长期记忆抽取，但除非显式开启 WM，否则不会生成归档 overview 或保留 checkpoint 摘要。这个开关不影响长期记忆、recall、profile 或工具。
 

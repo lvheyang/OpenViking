@@ -2,7 +2,9 @@
 description: 查询 OpenViking 网关的配置字段、环境变量、上下文配置设置和上游设置。
 ---
 
-# OpenViking 网关配置参考
+<a id="openviking-网关配置参考"></a>
+
+# 配置参考
 
 本页供修改 `ov.conf`、`gateway.conf` 或环境变量的运维人员查阅，也方便把 Studio 中的名称对应到管理 API 的字段名。每张表都列出名称、默认值和可选值；设置的作用和什么时候需要改，见各节链接的功能页面。
 
@@ -283,3 +285,23 @@ API 请求省略 `disabled_tools` 时使用默认列表；列表为空且 `gatew
 - [在 Server 中启用](../guides/22-gateway-operations.md#enable-it-in-the-server)：在 `ov.conf` 中开启嵌入网关。
 - [上下文配置](08-context-profiles.md)和[上游](07-upstreams.md)：用 Studio 的说法解释上面这些设置的作用。
 - [管理 API](../api/25-gateway.md)：网关密钥的字段、全部管理操作、权限规则和错误原因。
+
+## 关键术语 {#key-terms}
+
+网关文档的各个页面都按下表的含义使用这些术语。同一 OpenViking 账号的用户共用上游和上下文配置；网关密钥和请求日志归各个用户自己。
+
+| 术语 | 含义 | 详见 |
+| --- | --- | --- |
+| 上游 | 网关把请求转发过去的模型服务地址，连同它的 API Key；每个上游只使用三种 API 中的一种。 | [上游](07-upstreams.md#upstreams) |
+| 上下文配置 | 一组有名字的记忆设置，例如召回预算、是否保存对话、是否开放 OpenViking 工具；每个网关密钥使用一份。 | [上下文配置](08-context-profiles.md#context-profiles) |
+| 网关密钥 | 客户端用来代替服务商 API Key 的密钥（`ovgw_…`），绑定一位 OpenViking 用户、一份上下文配置和一组上游。 | [网关密钥](09-gateway-keys.md#gateway-keys) |
+| OpenViking API 密钥 | 你在 OpenViking 的用户密钥：用它登录 Studio，它也决定以哪个账号、哪个用户的身份读写记忆。 | [密钥和凭证](../guides/22-gateway-operations.md#keys-and-credentials) |
+| 网关管理密钥 | 可选的密钥（`ovgm_…`）；设置后，只有带上它的请求才能修改上游和上下文配置。谁能修改什么，见[权限矩阵](../api/25-gateway.md#credentials-and-account-scope)。 | [网关管理密钥](../guides/22-gateway-operations.md#gateway-management-key) |
+| 对话 | 网关认定属于同一次聊天的一组请求；一段对话沿用开始时的上下文配置和上游。它的轮次保存到一个 OpenViking 会话，某些情况下改存到新会话，例如客户端改写历史时（见[保存状态](10-overview-and-requests.md#saving-status)）。 | [网关如何识别对话](03-connect-clients.md#how-conversations-are-recognized) |
+| 召回 | 从 OpenViking 搜出和当前消息相关的记忆，附加到这条消息上。 | [模型看到什么](01-how-it-works.md#what-the-model-sees) |
+| 保存 | 把已完成的轮次写入 OpenViking 会话（晚一轮进行），供之后的提交从中提取新记忆。 | [对话什么时候保存](01-how-it-works.md#when-conversations-are-saved) |
+| 提交 | 告诉 OpenViking 会话里已保存的轮次可以处理了：OpenViking 归档较早的轮次（会话中只留最新的消息），并在后台从中提取记忆。已保存的轮次要等提交之后才会变成记忆。 | [对话什么时候保存](01-how-it-works.md#when-conversations-are-saved) |
+| 压缩 | 对话接近模型的上下文窗口时，让同一个模型写一份摘要，替换截断点之前的全部内容。 | [网关中的长对话](05-long-conversations.md#long-conversations) |
+| 提示词缓存 | 服务商的计费机制：请求开头和上一次请求相同的部分按缓存价计费（通常只有原价的一小部分），从第一个不同的字节起按原价计费。 | [记忆原样放回与提示词缓存](01-how-it-works.md#replay) |
+| 本地 dev 模式 | 以 dev 模式运行的 OpenViking 服务：绑定 `127.0.0.1`、未配置 `root_api_key`，打开 Studio 不需要 API 密钥，所有操作都以 `default` 用户身份进行。 | [本地服务](02-quickstart.md#local-server-no-api-key) |
+| OpenViking 工具 | 你的 OpenViking 服务提供的工具（名为 `openviking_…`），由网关提供给模型，并在模型回答时由网关自己执行。 | [OpenViking 工具](04-openviking-tools.md#agentic-memory-for-any-client) |

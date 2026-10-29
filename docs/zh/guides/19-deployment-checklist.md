@@ -87,3 +87,7 @@ HDFS 模型目录（默认 `/home/vikingdb_data`）要让 VikingDB 的运行身�
 私有交付中，`OpenVikingWorkspace.spec.vectordb.dimension` 会覆盖模板中的存储维度，但不会同步修改 `embedding.dense.dimension`。两处必须分别核对。
 
 准备完成后进入[企业私有化部署](20-private-deployment.md)。日常维护见[升级与排障](21-private-operations.md)。
+
+## 业务验收
+
+准备或升级环境时，保留一个可从业务客户端运行的固定样例。按[数据链路验收](03-deployment.md#data-path-check)完成导入、等待处理、检索和原文读取，并在 API Key 模式下确认无密钥请求被拒绝。使用业务用户身份与真实网络入口；记录任务 ID、来源 URI 和检查结果。

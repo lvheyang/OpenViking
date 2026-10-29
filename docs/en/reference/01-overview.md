@@ -1,6 +1,6 @@
 # Find a reference
 
-Use this section to look up interface contracts, protocols and configuration fields. For system behavior and design constraints, see [Concepts and principles](../concepts/00-overview.md). For your first use, follow the [quick start](../getting-started/02-quickstart.md). If you have not decided which interfaces to call, choose an [application workflow](../workflows/01-overview.md) first.
+Find interface contracts, protocols, parameters, and configuration fields by topic.
 
 | What you need | Entry point |
 | --- | --- |
@@ -12,5 +12,3 @@ Use this section to look up interface contracts, protocols and configuration fie
 | Rule compilation and applicability recall (Beta) | [Rules API (Beta)](../api/26-rules.md) |
 | Administration, permissions and background state | [Admin](../api/08-admin.md), [ACL](../api/12-acl.md), [background tasks](../api/17-tasks.md), [Observer](../api/18-observer.md) |
 | Consistency, isolation and processing completion | [Architecture](../concepts/01-architecture.md), [transactions and recovery](../concepts/09-transaction.md), [multi-tenancy](../concepts/11-multi-tenant.md), [queue state](../concepts/16-queue-lifecycle.md) |
-
-The sidebar groups interfaces by the objects they operate on. Task guides remain in Build Applications or Deploy & Operate and link to the relevant references. For configuration steps, see [Configure models and services](../guides/01-configuration.md). For differences between integrations, see the [capability comparison](../agent-integrations/16-capability-reference.md).

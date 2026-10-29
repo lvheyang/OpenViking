@@ -1,4 +1,6 @@
-# 导入本地 Agent 日志（openviking-server ingest）
+<a id="导入本地-agent-日志-openviking-server-ingest"></a>
+
+# 导入 Agent 日志
 
 `openviking-server ingest` 读取本地 Agent 对话日志，将消息导入 OpenViking 会话并提交，触发记忆提取。它支持一次性导入历史日志，也支持持续监听新增日志，无需修改对应 Agent 或安装记忆插件。
 

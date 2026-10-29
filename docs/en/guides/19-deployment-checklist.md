@@ -87,3 +87,7 @@ The HDFS model directory (default `/home/vikingdb_data`) must be writable by the
 In private delivery, `OpenVikingWorkspace.spec.vectordb.dimension` overrides the template's storage dimension, but does not change `embedding.dense.dimension`. Check both.
 
 Continue to [Enterprise Deployment](20-private-deployment.md) and [upgrades and troubleshooting](21-private-operations.md).
+
+## Business acceptance
+
+When preparing or upgrading an environment, retain a fixed sample runnable from a business client. Follow the [data-path check](03-deployment.md#data-path-check) to import, wait, retrieve, and read the source, and verify rejection without credentials in API Key mode. Use the business identity and real network endpoint, and record task IDs, source URIs, and results.

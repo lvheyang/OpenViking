@@ -1,4 +1,6 @@
-# Admin (Multi-tenant)
+<a id="admin-multi-tenant"></a>
+
+# Admin
 
 The Admin API manages accounts, users, and groups in a multi-tenant environment. It covers workspace (account) creation/deletion, user registration/removal, group membership, role changes, and API key regeneration.
 

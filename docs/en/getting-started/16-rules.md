@@ -20,6 +20,8 @@ A Skill describes how to do something; a Rule describes which requirements apply
 
 ## Prepare the environment
 
+Before starting, complete the [SDK and server capability check](../workflows/02-rule-validation.md#rule-capability-check). Verify Python methods and server routes separately; if methods are missing, install the SDK from a checkout containing Rule support.
+
 Prepare an OpenViking service with Rule support and a Python environment; see the [Quickstart](02-quickstart.md#prerequisites) for setup. The server needs working Embedding and Compiler models. The Compiler defaults to the VLM; see [Rules configuration](../configuration/01-server.md#rules). Compilation and retrieval call models and persist the demo rule in the current user's rule library, so a test user is suitable for this exercise.
 
 Install the SDK in your Python environment:

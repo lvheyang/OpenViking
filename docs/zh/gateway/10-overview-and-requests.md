@@ -146,7 +146,7 @@ description: 读懂 Studio 中 OpenViking 网关的“概览”和“请求日�
 
 ## 下一步 {#next-steps}
 
-- [OpenViking 网关排障](12-troubleshooting.md#common-symptoms)：根据卡片、标签或状态找到原因和处理方法。
+- [排障](12-troubleshooting.md#common-symptoms)：根据卡片、标签或状态找到原因和处理方法。
 - [记忆原样放回与提示词缓存](01-how-it-works.md#replay)：为什么首次调用缓存命中率这么重要。
 - [观测](../guides/22-gateway-operations.md#monitoring)：在 Studio 之外检查网关的运行状态。
 - [安全与数据](11-security-and-data.md#what-request-logs-record)：日志记录什么、保留多久。

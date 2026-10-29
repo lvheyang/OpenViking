@@ -1,4 +1,6 @@
-# ACL API
+<a id="acl-api"></a>
+
+# ACL
 
 ACL 通过独立的 `/api/v1/acl` 接口查询和修改，只适用于 `viking://resources/...` 共享资源。权限模型见[资源访问控制](../concepts/15-acl.md)。
 

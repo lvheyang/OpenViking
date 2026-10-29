@@ -2,7 +2,7 @@
 
 Compile mandatory constraints from agreements or coding standards in batches, then let an Agent recall rules for a concrete task, check evidence, and adjust its actions. This tutorial uses user-provided open-source license requirements.
 
-OpenViking compiles rules and retrieves applicable candidates. The Agent decides whether requirements are satisfied or violated; search itself returns no compliance verdict. See [Rules (Beta)](../concepts/17-rule-scenarios.md) for concepts and lifecycle.
+OpenViking compiles rules and retrieves applicable candidates. The Agent decides whether requirements are satisfied or violated; search itself returns no compliance verdict.
 
 ## Prerequisites
 
@@ -10,9 +10,42 @@ OpenViking compiles rules and retrieves applicable candidates. The Agent decides
 - Use a Python HTTP SDK with `rule_compile()` and `rule_search()`, configured with the current user's identity. Compile and search as the same user.
 - Prepare mandatory constraints confirmed by the user, preserving conditions, exceptions, and thresholds. Do not treat ordinary suggestions or preferences as rules.
 
-See [server Rules configuration](../configuration/01-server.md#rules) and [API conventions](../api/01-overview.md). Run the following snippets in order, replacing the URL and API key with your configuration.
+Run the following snippets in order, replacing the URL and API key with your configuration.
 
-## Step 1: Submit rule material
+### Check SDK and server capabilities {#rule-capability-check}
+
+This page requires SDK methods `rule_compile()` and `rule_search()`, plus server routes `/api/v1/rules/compile` and `/api/v1/rules/search`. Check the Python methods after installation:
+
+```bash
+python -c "from openviking_sdk import SyncHTTPClient; assert all(callable(getattr(SyncHTTPClient, name, None)) for name in ('rule_compile', 'rule_search')), 'Install an SDK build with Rule support'; print('Rule SDK methods available')"
+```
+
+If the check fails, install the bundled SDK from the root of an OpenViking checkout that contains the Rule implementation:
+
+```bash
+python -m pip install ./sdk/python
+```
+
+The server build must also include these routes. For a source deployment, use the same repository commit for the SDK and server, following the repository's [development installation instructions](https://github.com/volcengine/OpenViking/blob/main/CONTRIBUTING.md) to build the server. Ask the provider to confirm support in a hosted environment. Updating only the SDK cannot fix a 404 caused by missing server routes.
+
+The Compiler reuses the configured VLM by default, so a separate model configuration is optional. To select a dedicated model, merge the following JSON fragment into the existing `ov.conf`, supply real model settings and credentials, and restart the service. The model must support thinking mode.
+
+```json
+{
+  "rules": {
+    "compiler": {
+      "provider": "openai",
+      "api_base": "https://your-model-service.example.com/v1",
+      "api_key": "your-model-api-key",
+      "model": "your-thinking-model"
+    }
+  }
+}
+```
+
+<a id="step-1-submit-rule-material"></a>
+
+## Submit rule material
 
 ```python
 from openviking_sdk import SyncHTTPClient
@@ -35,7 +68,9 @@ task = client.rule_compile(options={"sources": ["./compliance-rules/"]})
 
 The SDK uploads local sources. Use `{"sources": ["viking://resources/compliance-rules"]}` for an already ingested resource to avoid importing it again. See the [Rules API](../api/26-rules.md) for HTTP source formats.
 
-## Step 2: Wait and inspect the output
+<a id="step-2-wait-and-inspect-the-output"></a>
+
+## Wait and inspect the output
 
 ```python
 import time
@@ -71,7 +106,9 @@ for uri in result["written_uris"]:
 
 Check that generated rules retain the subject, obligations, conditions, exceptions, and exact source evidence. `UNCERTAIN` and `REJECT` only record reasons; `NOOP` means an existing rule covers the input. A timeout stops local polling without cancelling the server task.
 
-## Step 3: Search for a concrete task
+<a id="step-3-search-for-a-concrete-task"></a>
+
+## Search for a concrete task
 
 Read the object under review first, then put the goal, object, planned actions, and available evidence into `task_context`. These are example facts; replace them with observations from your task:
 
@@ -90,7 +127,9 @@ print(matches.get("warning"))
 
 Give the complete `rendered` text to the Agent. Applications using the API directly should also inspect `judge`, `warning`, and `scenario_selection`. When Jev is unavailable, candidates may pass through; their pass scores are not confirmed applicability probabilities.
 
-## Step 4: Have the Agent check every rule
+<a id="step-4-have-the-agent-check-every-rule"></a>
+
+## Have the Agent check every rule
 
 For each returned rule, the Agent should:
 
@@ -100,6 +139,18 @@ For each returned rule, the Agent should:
 4. Search again when new facts materially change the applicable situation.
 
 In this example, the README declaration triggers the rule. The existence of LICENSE does not establish that its text is complete, so further reading is needed. Empty search results neither establish the absence of relevant rules nor constitute a passed check.
+
+## Example verification outcomes
+
+These are illustrative Agent conclusions, not captured compiler or search responses. Use the rule text and URIs from the current `written_uris` and `rendered` output.
+
+| Evidence actually read | Conclusion | Next action |
+| --- | --- | --- |
+| README declares open source; LICENSE contains the complete license text | Satisfied | Cite the rule URI and the license text |
+| README declares open source; a complete check of the repository and declared license locations finds no license text | Violated | Identify the missing license material |
+| LICENSE exists, but its text has not been read | Insufficient evidence | Read it before judging completeness |
+
+After compilation, read the requirement, conditions, and sources. After search, locate the relevant rule and evidence in `rendered`. If output is empty or a `warning` is present, inspect task state and diagnostics before applying these checks.
 
 ## Connect an existing Agent
 
@@ -116,7 +167,10 @@ Skills provide operational and behavioral instructions; the Agent still needs ca
 
 ## Related documentation
 
+- [Rules configuration](../configuration/01-server.md#rules)
+- [API connection and identity conventions](../api/01-overview.md)
+
 - [Rules (Beta)](../concepts/17-rule-scenarios.md)
 - [Rules API (Beta)](../api/26-rules.md)
 - [Background Tasks](../api/17-tasks.md)
-- [Application workflows](./01-overview.md)
+- [Develop applications](./01-overview.md)

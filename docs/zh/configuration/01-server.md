@@ -2,6 +2,8 @@
 
 首次配置建议使用 `openviking-server init`，保存后运行 `openviking-server doctor`。
 
+本页是字段查询入口；模型选择、provider 配置示例和生效范围见[配置模型与服务](../guides/01-configuration.md)。查字段类型和默认值时以本页及对应配置实现为准；指南补充场景示例，不替代字段契约。
+
 OpenViking 服务端读取 `ov.conf`。默认路径是：
 
 ```text

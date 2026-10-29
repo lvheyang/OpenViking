@@ -2,6 +2,8 @@
 
 For initial setup, run `openviking-server init`, then run `openviking-server doctor` after saving the configuration.
 
+Use this page for field lookup. For model selection, provider examples, and configuration scope, see [Configure models and services](../guides/01-configuration.md). This reference and the matching configuration implementation define types and defaults; the guide adds scenario examples.
+
 The OpenViking server reads `ov.conf`. The default path is:
 
 ```text

@@ -310,10 +310,10 @@ peer 集合过滤选择当前用户内的 peer 内容子空间，例如
 
 - [认证](../guides/04-authentication.md) - 认证模式、请求头和 key 规则
 - [配置](../guides/01-configuration.md) - `root_api_key` 和 `auth_mode`
-- [多租户](../api/08-admin.md) - Admin API 参考
+- [Admin](../api/08-admin.md) - Admin API 参考
 - [API 概览](../api/01-overview.md) - CLI / HTTP 连接方式
 - [资源访问控制（ACL）](./15-acl.md) - account 内资源授权、继承和检索过滤
-- [ACL API](../api/12-acl.md) - HTTP、SDK 和 CLI 接口
+- [ACL](../api/12-acl.md) - HTTP、SDK 和 CLI 接口
 - [数据加密](./10-encryption.md) - 多租户下的静态数据加密
 - [多租户示例](https://github.com/volcengine/OpenViking/blob/main/examples/multi_tenant/README.md) - 完整管理流程示例
 - [OpenClaw 插件](https://github.com/volcengine/OpenViking/blob/main/examples/openclaw-plugin/README_CN.md) - OpenClaw 的接入方式

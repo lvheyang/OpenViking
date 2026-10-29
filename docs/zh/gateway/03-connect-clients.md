@@ -2,7 +2,9 @@
 description: 把 Claude Code、Codex、聊天应用、SDK 等客户端接入 OpenViking 网关，并检查接入是否生效。
 ---
 
-# 把客户端接入 OpenViking 网关
+<a id="把客户端接入-openviking-网关"></a>
+
+# 接入客户端
 
 本页按客户端给出具体配置，以及验证配置是否生效的方法。每个客户端都需要三样东西：网关地址、网关密钥（部署方开启 `openviking_keys` 时，也可以用用户的 OpenViking API 密钥，见[直接使用 OpenViking API 密钥](09-gateway-keys.md#openviking-keys)），以及这把密钥绑定的一个已启用上游——它要支持客户端使用的协议，并提供客户端请求的模型。还没有网关密钥？先看[快速上手](02-quickstart.md)。
 
@@ -323,4 +325,4 @@ client = Ark(base_url="https://ov.example.com/gateway/api/v3", api_key="<gateway
 
 - [使用须知](01-how-it-works.md#what-to-expect)：客户端改走网关后，哪些行为会变化。
 - [上下文配置](08-context-profiles.md)：调整召回多少记忆、是否保存对话。
-- [OpenViking 网关排障](12-troubleshooting.md)：处理报错、记忆缺失或对话没有保存等问题。
+- [排障](12-troubleshooting.md)：处理报错、记忆缺失或对话没有保存等问题。

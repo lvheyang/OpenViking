@@ -1,4 +1,6 @@
-# Context Compilation Overview
+<a id="context-compilation-overview"></a>
+
+# Context compilation
 
 `ov compile` reads documents, notes, web pages, or session records from OpenViking and uses a Skill to organize them into a Wiki, knowledge graph, daily report, or other output stored in OpenViking.
 
@@ -14,6 +16,13 @@ Use the optional `--instruction` to specify this run's scope, audience, language
 
 The configured [Agent Runtime](../api/23-agent-runtime.md) runs the compilation; local deployments can use the built-in [VikingBot](../concepts/15-vikingbot.md). It reads the sources and Skill under the requesting user's identity, then organizes and writes content in a dedicated agent loop. The task runs asynchronously and returns a `task_id` for checking progress and results.
 
+## Prerequisites
+
+- For the Skill-based examples, a running OpenViking service with a Compile Runtime configured. For local use, install the `openviking[bot]` dependencies and enable the built-in VikingBot with `--with-bot`. The `--skill memory` mode runs in-process without a Compile Runtime and takes no `--from`. The default endpoint is `http://localhost:1933`; remote use needs an API Key — see [Authentication](../guides/04-authentication.md). No service yet? Start with the [Quick Start](../getting-started/02-quickstart.md).
+- The `ov` CLI configured with a connection (`~/.openviking/ovcli.conf`, or a file selected by `OPENVIKING_CLI_CONFIG_FILE`).
+- Paths beginning with `examples/...` are relative to the repository. Download the [OpenViking repository](https://github.com/volcengine/OpenViking) and run the commands from its root.
+- Python 3 for the visualization scripts. The [LLM Wiki script](https://github.com/volcengine/OpenViking/blob/main/examples/compile/graph-show/llm-wiki/wiki_graph.py) also requires the `openviking` Python package.
+
 ## Run it in one command
 
 First import the sources and install the Skill using the [LLM Wiki example](02-llm-wiki.md), then run:
@@ -28,13 +37,22 @@ ov compile \
 
 The command returns a `cmp_...` task ID immediately. Use `ov task status <id>` to check progress and `ov task cancel <id>` to stop it. The full field reference, task lifecycle, and HTTP API are in the [Agent Runtime API](../api/23-agent-runtime.md).
 
+## Check the output
+
+Once the task completes, open the output directory's index and read a topic page to check its sources:
+
+```bash
+ov tree viking://resources/research-wiki
+ov read viking://resources/research-wiki/index.md
+```
+
+Wiki compilation organizes sources into topic pages and an index. Read the [Lighthouse sample page](/quickstart/wiki-output-en-v1.txt) to see how conclusions and citations are organized, then use [LLM Wiki](02-llm-wiki.md) to inspect your own output. Task success describes processing; factual content and sources still need checking.
+
 ## Use Web Studio
 
 Studio provides a Compile list at `/compile`, a form at `/compile/new`, and task details at `/compile/tasks/<task_id>`. Select and preview a Skill, browse source directories, submit multiple sources, inspect or cancel a task, and open its output directory. The Filesystem terminal also supports `compile` and `task`; it can hand parameters to the form.
 
-Task-list cursors are signed with a process-local key and bound to the caller and filters. Restarting the service invalidates old cursors; refresh the list to start again. A cursor from one replica is not portable to another. Pagination scans stored task records rather than using an index, so read cost grows with retained history.
-
-For HTTP submission retries, reuse the same `Idempotency-Key` and request parameters; a changed request with the same key returns `409`. Recovery lasts only as long as the task record: completed/cancelled records expire 24 hours after their last update, failed records after 7 days. This is not permanent submission history or a cross-instance exactly-once guarantee. See [Agent Runtime](../api/23-agent-runtime.md) for submission recovery and [Tasks](../api/17-tasks.md) for task operations.
+For submission retries, pagination, and record retention, see [Agent Runtime API](../api/23-agent-runtime.md#compile-request-lifecycle).
 
 ## Swap the Skill, get a different output
 
@@ -53,12 +71,6 @@ The first two examples also give the complete `ov` commands from **importing sou
 
 Besides compiling source material into new knowledge artifacts with a Skill, `ov compile` has a special mode — set `--skill` to `memory` to consolidate an existing **memory** directory in place (dedup, merge, split, compact), without going through VikingBot. See [Memory Consolidation](./06-memory-consolidation.md).
 
-## Prerequisites
-
-- For the Skill-based examples, a running OpenViking service with a Compile Runtime configured. For local use, install the `openviking[bot]` dependencies and enable the built-in VikingBot with `--with-bot`. The `--skill memory` mode runs in-process without a Compile Runtime and takes no `--from`. The default endpoint is `http://localhost:1933`; remote use needs an API Key — see [Authentication](../guides/04-authentication.md). No service yet? Start with the [Quick Start](../getting-started/02-quickstart.md).
-- The `ov` CLI configured with a connection (`~/.openviking/ovcli.conf`, or a file selected by `OPENVIKING_CLI_CONFIG_FILE`).
-- Paths beginning with `examples/...` are relative to the repository. Download the [OpenViking repository](https://github.com/volcengine/OpenViking) and run the commands from its root.
-- Python 3 for the visualization scripts. The [LLM Wiki script](https://github.com/volcengine/OpenViking/blob/main/examples/compile/graph-show/llm-wiki/wiki_graph.py) also requires the `openviking` Python package.
 
 ## Related docs
 

@@ -1,6 +1,8 @@
 # Concepts and principles
 
-Follow this reading path through OpenViking's context model, processing flow, architecture and governance. If you have not used OpenViking yet, [import and retrieve your first document](../getting-started/02-quickstart.md), then return here to understand how the result was produced.
+OpenViking organizes Agent context as a searchable virtual filesystem: **resources** hold documents and code, **memories** retain reusable information from conversations, **skills** describe how to perform tasks, and **Rules (Beta)** store explicit constraints.
+
+A `viking://` URI identifies each context item. After retrieval, an Agent can read an L0 abstract or L1 overview before loading L2 source content; supported layers and generation conditions vary by context type. For a project-feedback question, it locates the relevant material, reads the source, and cites it instead of loading every document into the prompt.
 
 ## Start with the context model
 

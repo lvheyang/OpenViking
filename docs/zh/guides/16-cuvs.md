@@ -1,4 +1,6 @@
-# 使用 NVIDIA cuVS 进行本地向量检索
+<a id="使用-nvidia-cuvs-进行本地向量检索"></a>
+
+# cuVS 向量检索
 
 OpenViking 的 `cuvs` 后端保留本地后端的记录持久化、标量索引、稀疏检索和故障恢复，只把 dense vector search 交给 NVIDIA cuVS。这样可以先验证 GPU 检索链路，而不需要重新实现一个完整的向量数据库。
 

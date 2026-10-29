@@ -1,6 +1,20 @@
 # Choose a deployment path
 
-If someone has already provided a service URL and API key, go directly to [CLI setup](../getting-started/05-cli-setup.md) or [agent integration](../agent-integrations/01-overview.md). The paths below are for people deploying and operating the service.
+Deploying OpenViking requires model access, persistent storage, and user identities. Start with the initialization flow for an installed server, then choose a complete local, shared-service, or enterprise delivery path.
+
+## Initialize a self-hosted service
+
+After installing the server and preparing Embedding and VLM credentials, run the wizard on the server host. For team access, configure a persistent workspace, listen address, and `server.root_api_key`, then create user keys for business requests.
+
+```bash
+openviking-server init
+openviking-server doctor
+openviking-server
+```
+
+After `doctor` passes, start the service and run the [data-path check](03-deployment.md#data-path-check) from a business client. For installation and user creation, see [Server deployment](03-deployment.md) and [Authentication](04-authentication.md). With an existing URL and user key, go directly to [CLI setup](../getting-started/05-cli-setup.md).
+
+## Choose a deployment path
 
 | Goal | Reading order | Completion check |
 | --- | --- | --- |

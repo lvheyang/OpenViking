@@ -1,5 +1,16 @@
 # FAQ
 
+## Troubleshoot by symptom
+
+| Symptom | Check first | Continue with |
+| --- | --- | --- |
+| No results after import | Completed task, correct URI, readable by current user | [Resource retrieval](../getting-started/08-resources.md): processing, retrieval, and source checks |
+| No memory after commit | Messages committed, extraction complete, policy allows it | [Use memory](../getting-started/09-memory.md): artifacts and ownership |
+| Plugin does not recall in a new session | Memory exists, same identity and Peer, recall events present | [Agent integrations](../agent-integrations/01-overview.md): client-specific verification |
+| Connection works but model processing fails | Credentials, dimensions, limits, and network access | [Model configuration](../guides/01-configuration.md) and [diagnostics](../guides/05-observability.md) |
+
+The questions below retain useful conceptual and operational guidance, plus installation, AGFS, and retrieval troubleshooting.
+
 ## Basic Concepts
 
 ### What is OpenViking? What problems does it solve?

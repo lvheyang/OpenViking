@@ -74,3 +74,7 @@ kubectl -n vikingdb get events --sort-by=.lastTimestamp
 提供交付版本、发生时间、受影响操作、CR 条件、相关事件、doctor 与 P0 的失败阶段，以及脱敏后的配置差异。不要上传 kubeconfig 凭据、模型密钥、Root/User Key、授权文件、完整 Secret 或带签名下载链接。
 
 默认启用采集组件不等于监控平台已可用。本版随包说明中，VictoriaMetrics / Grafana 由交付方案单独准备。需确认指标接收、Dashboard 加载、告警接收与保留周期。离线授权环境还需按授权策略安排续期与遥测回传。
+
+## 业务验收
+
+准备或升级环境时，保留一个可从业务客户端运行的固定样例。按[数据链路验收](03-deployment.md#data-path-check)完成导入、等待处理、检索和原文读取，并在 API Key 模式下确认无密钥请求被拒绝。使用业务用户身份与真实网络入口；记录任务 ID、来源 URI 和检查结果。

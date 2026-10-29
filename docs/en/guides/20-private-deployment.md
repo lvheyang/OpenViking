@@ -272,3 +272,7 @@ Running Pods do not replace these checks, and these checks do not establish capa
 ## Bundled reference manuals
 
 Under `viking-docs/`, consult `install.md` (entry point), `Viking部署手册.md` (full procedure), `ovadmin使用手册.md` (arguments), `Viking模型要求.md` (model templates), `基础组件配置要求.md` (dependency initialization), `版本兼容性说明.md` (compatibility), and `Viking升级说明.md` (upgrades). Continue with [upgrades and troubleshooting](21-private-operations.md).
+
+## Business acceptance
+
+When preparing or upgrading an environment, retain a fixed sample runnable from a business client. Follow the [data-path check](03-deployment.md#data-path-check) to import, wait, retrieve, and read the source, and verify rejection without credentials in API Key mode. Use the business identity and real network endpoint, and record task IDs, source URIs, and results.

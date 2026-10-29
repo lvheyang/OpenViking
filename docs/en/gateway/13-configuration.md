@@ -2,7 +2,9 @@
 description: Look up every OpenViking Gateway configuration field, environment variable, context profile setting and upstream setting.
 ---
 
-# OpenViking Gateway configuration reference
+<a id="openviking-gateway-configuration-reference"></a>
+
+# Configuration
 
 This page is for operators editing `ov.conf`, `gateway.conf` or environment variables, and for anyone mapping a Studio label to its management API name. Every table gives the name, default and accepted values; what a setting does and when to change it are on the feature page linked from each section.
 
@@ -283,3 +285,23 @@ In Studio: **Upstreams** → an upstream. The tables follow the editor's four se
 - [Enable it in the server](../guides/22-gateway-operations.md#enable-it-in-the-server): turn on the embedded gateway in `ov.conf`.
 - [Context profiles](08-context-profiles.md) and [Upstreams](07-upstreams.md): what these settings do, in Studio terms.
 - [Management API](../api/25-gateway.md): gateway key fields, every management operation, the access rules and the error reasons.
+
+## Key terms {#key-terms}
+
+Every gateway page uses these terms in exactly this sense. Users in an OpenViking account share its upstreams and context profiles; gateway keys and request logs belong to individual users.
+
+| Term | What it means | Explained in |
+| --- | --- | --- |
+| Upstream | A model endpoint the gateway forwards requests to, with its API key; each upstream speaks exactly one of the three APIs. | [Upstreams](07-upstreams.md#upstreams) |
+| Context profile | A named set of memory settings, such as the recall budget, whether conversations are saved and whether OpenViking tools are offered; each gateway key uses one. | [Context profiles](08-context-profiles.md#context-profiles) |
+| Gateway key | The key (`ovgw_…`) a client uses in place of the provider API key; it binds one OpenViking user, one context profile and a set of upstreams. | [Gateway keys](09-gateway-keys.md#gateway-keys) |
+| OpenViking API key | Your OpenViking user key: it signs you in to Studio and decides which account and user memory is read and written as. | [Keys and credentials](../guides/22-gateway-operations.md#keys-and-credentials) |
+| Gateway management key | An optional key (`ovgm_…`); once set, only requests that carry it can change upstreams and context profiles. Who may change what is in the [access matrix](../api/25-gateway.md#credentials-and-account-scope). | [Gateway management key](../guides/22-gateway-operations.md#gateway-management-key) |
+| Conversation | The requests the gateway treats as one chat; a conversation keeps the context profile and upstream it started with. Its turns are saved to an OpenViking session, and to a new one in some cases, for example when the client rewrites the history (see [Saving status](10-overview-and-requests.md#saving-status)). | [How conversations are recognized](03-connect-clients.md#how-conversations-are-recognized) |
+| Recall | Searching OpenViking for memory related to the current message and appending it to that message. | [What the model sees](01-how-it-works.md#what-the-model-sees) |
+| Saving | Writing finished turns to an OpenViking session, one turn behind, so a later commit can turn them into memories. | [When conversations are saved](01-how-it-works.md#when-conversations-are-saved) |
+| Commit | Telling OpenViking that the saved turns in a session are ready: it archives the older turns, keeping the newest messages in the session, and extracts memories from them in the background. A saved turn becomes memory only after a commit. | [When conversations are saved](01-how-it-works.md#when-conversations-are-saved) |
+| Compaction | When a conversation nears the model's context window, the same model writes a summary that replaces everything before the cut. | [Long conversations in the gateway](05-long-conversations.md#long-conversations) |
+| Prompt caching | A provider billing feature: the part of a request that matches the start of the previous request is billed at the cached rate, usually a small fraction of the full rate, and everything from the first differing byte on at the full rate. | [Replay and prompt caching](01-how-it-works.md#replay) |
+| Local dev mode | An OpenViking server running in dev mode: bound to `127.0.0.1` with no `root_api_key`, so Studio needs no API key and everything runs as the `default` user. | [Local server](02-quickstart.md#local-server-no-api-key) |
+| OpenViking tools | The tools your OpenViking server provides (named `openviking_…`), which the gateway offers to the model and runs itself while the model answers. | [OpenViking tools](04-openviking-tools.md#agentic-memory-for-any-client) |

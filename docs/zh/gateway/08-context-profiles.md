@@ -126,4 +126,4 @@ X-OpenViking-Context: {"recall":false,"max_tokens":800,"context_types":["memory"
 - [签发一个网关密钥](09-gateway-keys.md#issue-a-key)，让它使用这份配置。
 - 在[请求日志](10-overview-and-requests.md#requests)中逐条查看召回和保存情况。
 - 始终没有补充记忆时，见[没有补充记忆](12-troubleshooting.md#no-memory-is-added)。
-- 在[OpenViking 网关的工作原理](01-how-it-works.md#what-happens-once-you-connect)中完整走一遍一轮对话。
+- 在[工作原理](01-how-it-works.md#what-happens-once-you-connect)中完整走一遍一轮对话。

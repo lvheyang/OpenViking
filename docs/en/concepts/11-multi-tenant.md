@@ -317,7 +317,7 @@ That is only dev mode:
 - [Admin API](../api/08-admin.md) - Admin API reference
 - [API Overview](../api/01-overview.md) - CLI and HTTP connection patterns
 - [Resource Access Control (ACL)](./15-acl.md) - In-account resource grants, inheritance, and retrieval filtering
-- [ACL API](../api/12-acl.md) - HTTP, SDK, and CLI interfaces
+- [ACL](../api/12-acl.md) - HTTP, SDK, and CLI interfaces
 - [Data Encryption](./10-encryption.md) - At-rest encryption in multi-tenant deployments
 - [Multi-tenant Example](https://github.com/volcengine/OpenViking/blob/main/examples/multi_tenant/README.md) - End-to-end management workflow
 - [OpenClaw Plugin](https://github.com/volcengine/OpenViking/blob/main/examples/openclaw-plugin/README.md) - OpenClaw integration

@@ -126,4 +126,4 @@ The switch defaults on, so anyone holding a key that uses the profile can change
 - [Issue a gateway key](09-gateway-keys.md#issue-a-key) that uses the profile.
 - Check recall and saving per request in the [request log](10-overview-and-requests.md#requests).
 - If memory never shows up, see [No memory is added](12-troubleshooting.md#no-memory-is-added).
-- Follow one turn end to end in [How OpenViking Gateway works](01-how-it-works.md#what-happens-once-you-connect).
+- Follow one turn end to end in [How it works](01-how-it-works.md#what-happens-once-you-connect).

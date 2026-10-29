@@ -105,5 +105,5 @@ A typical merge (folding "Ah-Zhen" into "Chen Jingxian"):
 
 ## Related docs
 
-- [Context Compilation Overview](./01-overview.md) — the overall introduction to `ov compile`
+- [Context compilation](./01-overview.md) — the overall introduction to `ov compile`
 - [Agent Runtime API](../api/23-agent-runtime.md) — full reference for creating, inspecting, and cancelling Compile tasks

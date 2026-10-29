@@ -1,4 +1,6 @@
-# 示例：知识蒸馏
+<a id="示例-知识蒸馏"></a>
+
+# 知识蒸馏
 
 从一个或多个知识库中提炼结论，按主题组织，并保留出处与不确定性。
 
@@ -22,14 +24,18 @@ Skill 源码：[openviking/system_assets/compile/example-skills/knowledge-distil
 
 先确认[前置条件](01-overview.md#前置条件)，并在 OpenViking 仓库根目录运行以下命令。来源目录需替换为自己的资料目录。
 
-## 第一步：准备来源
+<a id="第一步-准备来源"></a>
+
+## 准备来源
 
 ```bash
 ov add-resource ./finance-reports --to viking://resources/finance-reports --wait
 ov ls -r viking://resources/finance-reports
 ```
 
-## 第二步：添加 Skill
+<a id="第二步-添加-skill"></a>
+
+## 添加 Skill
 
 ```bash
 ov add-skill openviking/system_assets/compile/example-skills/knowledge-distillation -p viking://agent/skills --wait
@@ -37,7 +43,9 @@ ov skills list
 # → viking://agent/skills/knowledge-distillation
 ```
 
-## 第三步：执行编译
+<a id="第三步-执行编译"></a>
+
+## 执行编译
 
 在 `--instruction` 里说清**分析问题、对比维度、基线和范围**——这直接决定蒸馏的方向：
 
@@ -66,7 +74,9 @@ ov task status cmp_01abc      # 查看进度与最终结果
 ov task cancel cmp_01abc      # 协作式取消
 ```
 
-## 第四步：查看产物
+<a id="第四步-查看产物"></a>
+
+## 查看产物
 
 先查看目录，再读取实际生成的结论页。下面的文件名仅为示例：
 
@@ -77,8 +87,22 @@ ov read viking://resources/finance-insights/revenue-quality/growth-shifted-from-
 
 默认不生成 `index.md`；需要导航页时，在 `--instruction` 中明确要求。再次编译同一主题时，Skill 会要求更新已有分析页，并标注可能随时间变化的结论。
 
+## 产物核对
+
+结构示意（非实测输出）：
+
+```markdown
+# 营收增长的驱动因素发生变化
+## 结论与证据
+对比各期收入构成，分别引用支持数量变化与价格变化的来源。
+## 不确定性
+区分来源明确披露的数据与分析推断；缺少可比口径时保留未知。
+```
+
+这是分析页结构示意，不是财务结论。实际页面应给出对应年度、指标口径、来源证据和不确定性；读取引用材料，检查结论是否有依据，并确认推断已标注。
+
 ## 相关文档
 
-- [上下文编译概览](./01-overview.md)
+- [上下文编译](./01-overview.md)
 - [日报示例](./04-daily-report.md)
 - [Agent Runtime API](../api/23-agent-runtime.md)

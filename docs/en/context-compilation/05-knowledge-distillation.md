@@ -1,4 +1,6 @@
-# Example: Knowledge Distillation
+<a id="example-knowledge-distillation"></a>
+
+# Knowledge distillation
 
 Extract conclusions from one or more knowledge bases, organize them by topic, and retain source references and uncertainties.
 
@@ -22,14 +24,18 @@ Skill source: [openviking/system_assets/compile/example-skills/knowledge-distill
 
 Check the [prerequisites](01-overview.md#prerequisites) and run these commands from the OpenViking repository root. Replace the source directory with your own material.
 
-## Step 1: Prepare the sources
+<a id="step-1-prepare-the-sources"></a>
+
+## Prepare the sources
 
 ```bash
 ov add-resource ./finance-reports --to viking://resources/finance-reports --wait
 ov ls -r viking://resources/finance-reports
 ```
 
-## Step 2: Add the Skill
+<a id="step-2-add-the-skill"></a>
+
+## Add the Skill
 
 ```bash
 ov add-skill openviking/system_assets/compile/example-skills/knowledge-distillation -p viking://agent/skills --wait
@@ -37,7 +43,9 @@ ov skills list
 # → viking://agent/skills/knowledge-distillation
 ```
 
-## Step 3: Run compile
+<a id="step-3-run-compile"></a>
+
+## Run compile
 
 Spell out the **analytical question, comparison dimensions, baseline, and scope** in `--instruction` — it directly sets the direction of the distillation:
 
@@ -66,7 +74,9 @@ ov task status cmp_01abc      # progress and final result
 ov task cancel cmp_01abc      # cooperative cancel
 ```
 
-## Step 4: Inspect the output
+<a id="step-4-inspect-the-output"></a>
+
+## Inspect the output
 
 List the output first, then read a generated conclusion page. The filename below is illustrative:
 
@@ -77,8 +87,22 @@ ov read viking://resources/finance-insights/revenue-quality/growth-shifted-from-
 
 By default **no `index.md` is created** — a distillation is itself a set of conclusions, unless `--instruction` explicitly asks for a navigation page. Re-running refreshes the same analysis page and time-bounds any conclusion that may change.
 
+## Verify the artifact
+
+Illustrative structure, not captured output:
+
+```markdown
+# Revenue growth drivers changed
+## Conclusion and evidence
+Compare revenue components and cite evidence for volume and pricing changes.
+## Uncertainty
+Separate reported figures from inference; retain unknowns where definitions differ.
+```
+
+This illustrates an analysis page, not a financial finding. Actual pages should specify years, metric definitions, sources, and uncertainty. Read the cited materials to check the conclusion and ensure inferences are labeled.
+
 ## Related docs
 
-- [Context Compilation Overview](./01-overview.md)
+- [Context compilation](./01-overview.md)
 - [Daily Report example](./04-daily-report.md)
 - [Agent Runtime API](../api/23-agent-runtime.md)

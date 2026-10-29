@@ -1,6 +1,10 @@
-# 规则（Beta）
+<a id="规则-beta"></a>
+
+# 规则接口（Beta）
 
 规则 API 将用户提供的强约束编译为持久 Rule，并按任务上下文召回适用规则。当前提供 Python HTTP SDK 和 HTTP 接口；没有对应的专用 CLI、TypeScript SDK 或 Go SDK 方法。VikingBot 提供[规则搜索工具（Beta）](../guides/17-vikingbot.md)。
+
+开始前请完成 [SDK 与服务端能力检查](../workflows/02-rule-validation.md#rule-capability-check)。Python 方法存在与服务端路由可用需要分别确认；缺少方法时可从包含 Rule 实现的仓库安装 SDK。
 
 编译和搜索使用当前认证用户的规则库 `viking://user/<user_id>/memories/rules/`。规则概念见[规则（Beta）](../concepts/17-rule-scenarios.md)，完整操作流程见[规则校验（Beta）](../workflows/02-rule-validation.md)。
 

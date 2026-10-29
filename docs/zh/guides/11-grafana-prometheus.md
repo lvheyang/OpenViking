@@ -1,4 +1,6 @@
-# 使用 Prometheus 和 Grafana 查看 OpenViking 指标
+<a id="使用-prometheus-和-grafana-查看-openviking-指标"></a>
+
+# Prometheus / Grafana
 
 按四步把指标接到看板：
 
@@ -464,7 +466,7 @@ Bind for 0.0.0.0:9090 failed: port is already allocated
 ## 相关文档
 
 - [可观测性与排障](05-observability.md)
-- [使用真实问答验证 Vikingbot 指标](12-vikingbot-metrics-validation.md)
+- [VikingBot 指标验证](12-vikingbot-metrics-validation.md)
 - [指标与 Metrics](../concepts/12-metrics.md)
 - [Metrics API](../api/09-metrics.md)
 - [服务端部署](03-deployment.md)

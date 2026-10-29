@@ -2,7 +2,9 @@
 description: Match an OpenViking Gateway symptom, Studio label or error code to its cause and fix.
 ---
 
-# Troubleshoot OpenViking Gateway
+<a id="troubleshoot-openviking-gateway"></a>
+
+# Troubleshooting
 
 Use this page when a client gets an error, memory or saving is missing, or Studio flags a problem. Look in three places first: the **OpenViking** card on the **Overview** tab, the **Requests** tab filtered to **Issues**, and the server log (`docker compose logs openviking` with Docker Compose, or the standalone gateway's own output). Then find your symptom in the table below; each section reads on its own and links to the setting involved.
 

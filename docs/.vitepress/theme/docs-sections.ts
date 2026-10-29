@@ -1,4 +1,7 @@
 // Editorial ownership is independent of file location. Existing URLs stay stable.
+// Numeric filename prefixes are legacy URL identifiers, not display order.
+// Preserve existing paths (including duplicate numbers); choose unused prefixes for new pages.
+// guides/, api/ and getting-started/ may intentionally belong to other sections.
 // This manifest owns grouping and order; article labels come from Markdown H1.
 // Top navigation, sidebars, breadcrumbs, the homepage and llms.txt share this structure.
 export type Locale = 'en' | 'zh'
@@ -38,7 +41,7 @@ export const sections: DocSection[] = [
       ]),
       g('Integrations', '集成', [
         reference('agent-integrations/01-overview', 'Agent integration', 'Agent 接入'),
-        reference('workflows/01-overview', 'Application development', '应用开发'),
+        reference('workflows/01-overview', 'Develop applications', '开发应用'),
         p('getting-started/11-vikingbot'),
         p('getting-started/12-gateway')
       ]),
@@ -100,7 +103,6 @@ export const sections: DocSection[] = [
     groups: [
       g('Choose an integration', '选择接入方式', [
         p('agent-integrations/01-overview'),
-        p('agent-integrations/16-capability-reference'),
         p('agent-integrations/14-openviking-helper')
       ]),
       g('Coding tools', '编程工具', [
@@ -119,11 +121,14 @@ export const sections: DocSection[] = [
         p('agent-integrations/08-community-plugins')
       ]),
       g('Shared setup and tuning', '通用接入与调优', [
+        p('agent-integrations/16-capability-reference'),
         p('agent-integrations/06-mcp-clients'),
         p('agent-integrations/15-agent-plugins'),
         p('agent-integrations/09-log-ingestion'),
         p('agent-integrations/19-recall-tuning'),
-        p('agent-integrations/18-plugin-development'),
+        p('agent-integrations/18-plugin-development')
+      ]),
+      g('Upgrade notes', '升级说明', [
         p('guides/working-memory-default-off')
       ]),
       g('VikingBot', 'VikingBot', [

@@ -11,11 +11,11 @@ description: 把 OpenViking 网关嵌入 Server、用 Docker Compose 或 Helm �
 **要找别的内容？** 本页只讲运行网关，其他内容见：
 
 - Studio 标签页和各项设置：[在 Studio 中管理 OpenViking 网关](../gateway/06-manage-in-studio.md)，以及[上游](../gateway/07-upstreams.md)、[上下文配置](../gateway/08-context-profiles.md)、[网关密钥](../gateway/09-gateway-keys.md)和[网关概览与请求日志](../gateway/10-overview-and-requests.md)。
-- 报错、告警或 Studio 设置卡片：[OpenViking 网关排障](../gateway/12-troubleshooting.md)。
+- 报错、告警或 Studio 设置卡片：[排障](../gateway/12-troubleshooting.md)。
 - 配置字段或环境变量：[配置参考](../gateway/13-configuration.md)。
 - 存了什么、谁能看到、保留多久、怎么备份：[安全与数据](../gateway/11-security-and-data.md)。
 - OpenViking 工具或长对话：[网关中的 OpenViking 工具](../gateway/04-openviking-tools.md)和[网关中的长对话](../gateway/05-long-conversations.md)。
-- 某个客户端怎么配置：[把客户端接入 OpenViking 网关](../gateway/03-connect-clients.md)。
+- 某个客户端怎么配置：[接入客户端](../gateway/03-connect-clients.md)。
 
 ## 环境要求 {#requirements}
 
@@ -194,7 +194,7 @@ chart 不创建 Ingress。把代理指向它的 Service，并保持 `fullnameOve
 | `/gateway/downloads` | 工具下载 |
 | `/gateway/admin/` | 管理 API，需要认证 |
 
-因此客户端使用下面的 Base URL，把 `http://127.0.0.1:1933` 换成你的 Server 地址即可。各客户端的具体设置见[把客户端接入 OpenViking 网关](../gateway/03-connect-clients.md#connect-clients)。
+因此客户端使用下面的 Base URL，把 `http://127.0.0.1:1933` 换成你的 Server 地址即可。各客户端的具体设置见[接入客户端](../gateway/03-connect-clients.md#connect-clients)。
 
 | 客户端 | Base URL |
 | --- | --- |
@@ -471,4 +471,4 @@ appendfsync everysec
 
 - [在 Studio 中管理 OpenViking 网关](../gateway/06-manage-in-studio.md)：添加上游、创建上下文配置，签发第一批网关密钥。
 - [安全与数据](../gateway/11-security-and-data.md)：了解网关存了什么、谁能访问，以及怎么备份和删除数据。
-- [OpenViking 网关排障](../gateway/12-troubleshooting.md)：根据启动错误、设置卡片或失败的请求找到解决办法。
+- [排障](../gateway/12-troubleshooting.md)：根据启动错误、设置卡片或失败的请求找到解决办法。

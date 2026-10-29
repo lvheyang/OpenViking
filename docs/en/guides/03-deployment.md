@@ -439,6 +439,33 @@ curl http://localhost:1933/ready
 
 Use `/health` for Kubernetes liveness probes and `/ready` for readiness probes. See the [System API](../api/07-system.md) for the individual checks.
 
+## Check the data path {#data-path-check}
+
+Run these checks on the actual business client. Point `OPENVIKING_CLI_CONFIG_FILE` to a configuration containing this environment's reachable URL and business user's `api_key`. Use a separate temporary acceptance directory. The commands below target macOS / Linux shells.
+
+```bash
+export OPENVIKING_CLI_CONFIG_FILE=/path/to/business-user.ovcli.conf
+CHECK_DIR=$(mktemp -d)
+CHECK_URI="viking://resources/deployment-check-$(date +%Y%m%d%H%M%S)"
+printf '%s\n' '# Deployment check' 'The demo feedback is exported every Friday.' > "$CHECK_DIR/check.md"
+ov add-resource "$CHECK_DIR" --to "$CHECK_URI" --wait
+ov tree "$CHECK_URI"
+ov find "When is demo feedback exported?" --uri "$CHECK_URI"
+ov read "$CHECK_URI/check/check.md"
+```
+
+After import, the directory should contain `check/check.md`. Retrieval should find it, and reading the file should show `every Friday`. If waiting times out, check the returned task ID before continuing. If the URI differs, locate and inspect the actual file using the directory and retrieval results. This checks ingestion, indexing, remote reading, and retrieval; it does not establish capacity or generated-answer quality.
+
+For a shared service with API Key authentication enabled, also check rejection from the same client. Replace the URL with the real endpoint; this request intentionally omits credentials:
+
+```bash
+OV_SERVER_URL=https://openviking.example.com
+curl -sS -o /dev/null -w '%{http_code}\n' \
+  "$OV_SERVER_URL/api/v1/fs/ls?uri=viking://"
+```
+
+In API Key mode, expect `401` and no resource listing. `/health` permits anonymous access and cannot test authentication; this assertion does not apply to local dev mode. For proxies using another authentication protocol, verify rejection according to that protocol. Record the test URI and confirm its contents in Studio before cleaning it up.
+
 ## Related Documentation
 
 - [Public Access & Reverse Proxy](12-public-access.md) - HTTPS, Caddy, nginx

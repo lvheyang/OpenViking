@@ -1,4 +1,6 @@
-# Example: Knowledge Graph
+<a id="example-knowledge-graph"></a>
+
+# Knowledge graph
 
 Extract typed entities and typed, directed relationships into a knowledge graph, keeping source references for each statement and edge. The output contains entity files and an edge list:
 
@@ -20,14 +22,18 @@ Skill source: [examples/compile/ov-compile-skills/knowledge-graph](https://githu
 
 Check the [prerequisites](01-overview.md#prerequisites) and run these commands from the OpenViking repository root. Replace the source directory with your own material.
 
-## Step 1: Prepare the sources
+<a id="step-1-prepare-the-sources"></a>
+
+## Prepare the sources
 
 ```bash
 ov add-resource ./journal-to-the-west --to viking://resources/journal --wait
 ov ls -r viking://resources/journal
 ```
 
-## Step 2: Add the Skill
+<a id="step-2-add-the-skill"></a>
+
+## Add the Skill
 
 ```bash
 ov add-skill examples/compile/ov-compile-skills/knowledge-graph -p viking://agent/skills --wait
@@ -35,7 +41,9 @@ ov skills list
 # → viking://agent/skills/knowledge-graph
 ```
 
-## Step 3: Run compile
+<a id="step-3-run-compile"></a>
+
+## Run compile
 
 ```bash
 ov compile \
@@ -52,7 +60,9 @@ ov task status cmp_01abc      # progress and final result
 ov task cancel cmp_01abc      # cooperative cancel
 ```
 
-## Step 4: Inspect the output
+<a id="step-4-inspect-the-output"></a>
+
+## Inspect the output
 
 ```bash
 ov tree viking://resources/journal-kg
@@ -60,7 +70,9 @@ ov read viking://resources/journal-kg/relations.jsonl
 ov read viking://resources/journal-kg/entities/sun-wukong.md
 ```
 
-## Step 5: Visualize it as an interactive graph
+<a id="step-5-visualize-it-as-an-interactive-graph"></a>
+
+## Visualize it as an interactive graph
 
 Unlike the LLM Wiki script, `knowledge_graph.py` reads from a **local directory** (it needs both `entities/` and `relations.jsonl` on disk). So download the output first, then generate the HTML.
 
@@ -101,8 +113,20 @@ python examples/compile/graph-show/knowledge-graph/knowledge_graph.py \
 
 Open `journal-kg.html` in a browser. The script validates first — `relations.jsonl` must be valid JSON, every entity file must have a stable `id` and `title`, and both ends of every edge must resolve to an entity node — and fails with the offending line if not, so it doubles as a quality check on the output. Nodes are colored and shaped by `entity_type`, edges show their localized `label`, and clicking a node reveals that entity's body, aliases, and sources.
 
+## Verify the artifact
+
+Illustrative structure, not captured output:
+
+```text
+entities/
+  sun-wukong.md
+relations.jsonl
+```
+
+An entity page should describe Sun Wukong and cite sources; `from` and `to` in the relation table must resolve to entity IDs. The introductory `member_of` JSON illustrates the structure, not a captured run. After visualization, click an entity to read its text and verify evidence for the membership edge.
+
 ## Related docs
 
-- [Context Compilation Overview](./01-overview.md)
+- [Context compilation](./01-overview.md)
 - [LLM Wiki example](./02-llm-wiki.md)
 - [Agent Runtime API](../api/23-agent-runtime.md)

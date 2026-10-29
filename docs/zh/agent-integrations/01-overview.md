@@ -2,6 +2,14 @@
 
 OpenViking 可以作为多种 Agent 运行时的长期记忆与上下文后端。按你的运行时挑选合适的接入方式即可。
 
+<a id="所有集成的共同前置"></a>
+
+## 开始之前
+
+本页所有集成都需要连接到一个正在运行的 OpenViking 服务。如果你还没有，请先按 [快速开始](../getting-started/02-quickstart.md) 部署。默认端点是 `http://localhost:1933`；远程使用需要 API Key（参见 [鉴权](../guides/04-authentication.md)）。
+
+已有服务地址和用户 API Key 时，可使用[一键接入](../getting-started/07-agent-onboarding.md)，再按下表查看客户端细节。安装器连接已有服务，不会替你创建云服务。
+
 ## 该用哪个集成？
 
 | 你在用… | 选这个 |
@@ -9,12 +17,12 @@ OpenViking 可以作为多种 Agent 运行时的长期记忆与上下文后端�
 | **Claude Code** | [Claude Code 记忆插件](./02-claude-code.md) — 通过 hooks 实现自动召回与自动捕获 |
 | **OpenClaw** | [OpenClaw 插件](./03-openclaw.md) — 全生命周期一体化集成 |
 | **Codex / TraeCode CLI 2.0** | [Codex 记忆插件](./04-codex.md) — 生命周期 hooks 自动召回与增量捕获 |
-| **Cursor** | [Cursor 记忆集成](./12-cursor.md) — 一条命令安装生命周期 Hook、MCP 工具、Rules 与 Skills |
-| **TRAE / TRAE CN** | [TRAE 记忆集成](./13-trae.md) — 一个安装器完成 prompt 召回、回合捕获与 OpenViking 工具接入 |
-| **DeepSeek Harness（`dsh`）/ DeepSeek Harness Desktop** | [DeepSeek Harness 记忆插件](./17-dsh.md) — 进程内 Cordis 插件，pre-step 召回、事件捕获与 OpenViking MCP 工具 |
+| **Cursor** | [Cursor 记忆集成](./12-cursor.md) — Hooks · MCP · Skills |
+| **TRAE / TRAE CN** | [TRAE 记忆集成](./13-trae.md) — Hooks · MCP 工具 |
+| **DeepSeek Harness（`dsh`）/ DeepSeek Harness Desktop** | [DeepSeek Harness 记忆插件](./17-dsh.md) — 自动召回 · 捕获 · MCP 工具 |
 | **Hermes Agent** | [Hermes Agent](./05-hermes.md)。自动捕获和召回记忆，旧版本使用内置提供方。 |
-| **OpenCode** | [OpenCode 插件](./10-opencode.md) — MCP 工具 + 生命周期 hooks，覆盖仓库上下文、自动召回与捕获 |
-| **pi** | [pi Coding Agent 扩展](./11-pi.md) — 原生扩展，自动召回、逐轮捕获、阈值 commit，并把服务端的 MCP 工具注册为 pi 原生工具 |
+| **OpenCode** | [OpenCode 插件](./10-opencode.md) — 自动召回 · 捕获 · MCP 工具 |
+| **pi** | [pi Coding Agent 扩展](./11-pi.md) — 自动召回 · 捕获 · MCP 工具 |
 | **LangChain / LangGraph** | [LangChain 和 LangGraph](./07-langchain-langgraph.md) — retriever、tools、context backend、store 和 middleware |
 | **VikingBot** | [VikingBot 安装与配置](../guides/17-vikingbot.md) — 内置 Agent，提供 `openviking_rule_search` 规则搜索工具（Beta） |
 | **多个本地开发 Agent / 希望使用桌面界面** | [OpenViking Helper](./14-openviking-helper.md) — 可视化完成 Agent 接入、会话分析和记忆管理 |
@@ -32,10 +40,6 @@ Claude Code、Codex、OpenCode、pi、DSH 等 Agent 既能用自己的插件，�
 ## 开发与维护插件
 
 新增或维护集成时，请遵循 [Hook + MCP Agent 插件开发与维护规范](./18-plugin-development.md)。使用 VibeCoding 时，务必让 coding agent 在修改前阅读并遵循该规范；实现可以参考 Claude Code、Codex 和其他现有插件。
-
-## 所有集成的共同前置
-
-本页所有集成都需要连接到一个正在运行的 OpenViking 服务。如果你还没有，请先按 [快速开始](../getting-started/02-quickstart.md) 部署。默认端点是 `http://localhost:1933`；远程使用需要 API Key（参见 [鉴权](../guides/04-authentication.md)）。
 
 ## 低延迟召回
 

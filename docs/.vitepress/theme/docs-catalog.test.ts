@@ -64,7 +64,7 @@ for (const locale of ['en', 'zh'] as Locale[]) {
     ])
     for (const [path, title, owner] of [
       ['agent-integrations/01-overview', locale === 'zh' ? 'Agent 接入' : 'Agent integration', 'agent-integrations'],
-      ['workflows/01-overview', locale === 'zh' ? '应用开发' : 'Application development', 'build']
+      ['workflows/01-overview', locale === 'zh' ? '开发应用' : 'Develop applications', 'build']
     ]) {
       const item = links.find(item => item.link === `/${locale}/${path}`)!
       assert.ok(item.text?.startsWith(title))

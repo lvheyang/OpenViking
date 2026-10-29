@@ -20,6 +20,8 @@ Skill 说明“怎样做”，Rule 说明“在什么条件下需要遵守哪些
 
 ## 准备环境
 
+开始前请完成 [SDK 与服务端能力检查](../workflows/02-rule-validation.md#rule-capability-check)。Python 方法存在与服务端路由可用需要分别确认；缺少方法时可从包含 Rule 实现的仓库安装 SDK。
+
 准备已启用 Rule 功能的 OpenViking 服务，以及 Python 环境；安装入口见[快速开始](02-quickstart.md#准备工作)。服务端需要可用的 Embedding 和 Compiler 模型，Compiler 默认复用 VLM，配置见 [Rules 配置](../configuration/01-server.md#rules)。编译和检索会调用模型，并将演示规则保存在当前用户的规则库中，适合使用测试用户体验。
 
 在 Python 环境中安装 SDK：

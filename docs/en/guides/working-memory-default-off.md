@@ -1,4 +1,6 @@
-# Working memory is opt-in
+<a id="working-memory-is-opt-in"></a>
+
+# Working Memory upgrade
 
 OpenViking now defaults to `working_memory.enabled=false`. A commit still stores
 raw messages and schedules long-term memory extraction. It does not generate an

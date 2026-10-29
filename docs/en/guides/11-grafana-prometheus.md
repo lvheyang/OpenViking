@@ -1,4 +1,6 @@
-# Using Prometheus and Grafana to View OpenViking Metrics
+<a id="using-prometheus-and-grafana-to-view-openviking-metrics"></a>
+
+# Prometheus / Grafana
 
 Connect the metric endpoint to a dashboard in four steps:
 

@@ -105,5 +105,5 @@ ov compile --to viking://user/<user_id>/memories --skill memory \
 
 ## 相关文档
 
-- [上下文编译概览](./01-overview.md) — `ov compile` 的整体介绍
+- [上下文编译](./01-overview.md) — `ov compile` 的整体介绍
 - [Agent Runtime API](../api/23-agent-runtime.md) — 创建、查询和取消 Compile 任务的完整参考

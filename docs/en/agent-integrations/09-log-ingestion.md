@@ -1,4 +1,6 @@
-# Import Local Agent Logs (openviking-server ingest)
+<a id="import-local-agent-logs-openviking-server-ingest"></a>
+
+# Import Agent logs
 
 `openviking-server ingest` reads local agent conversation logs, imports the messages into OpenViking sessions, and commits them for memory extraction. It supports one-time historical imports and ongoing log monitoring without changing the agent or installing a memory plugin.
 

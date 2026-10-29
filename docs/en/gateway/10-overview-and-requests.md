@@ -146,7 +146,7 @@ Resync starts a new OpenViking session for a conversation, and the gateway write
 
 ## Next steps {#next-steps}
 
-- [Troubleshoot OpenViking Gateway](12-troubleshooting.md#common-symptoms): match a card, label or status to its cause and fix.
+- [Troubleshooting](12-troubleshooting.md#common-symptoms): match a card, label or status to its cause and fix.
 - [Replay and prompt caching](01-how-it-works.md#replay): why the first-call cache hit rate matters.
 - [Monitoring](../guides/22-gateway-operations.md#monitoring): check the gateway's state outside Studio.
 - [Security and data](11-security-and-data.md#what-request-logs-record): what the log records and how long it is kept.

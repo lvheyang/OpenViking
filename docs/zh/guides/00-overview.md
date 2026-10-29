@@ -1,6 +1,20 @@
 # 选择部署路径
 
-如果你只需要使用别人提供的服务地址和 API Key，直接[连接 CLI](../getting-started/05-cli-setup.md)或[接入 Agent](../agent-integrations/01-overview.md)。下面的路径面向服务部署与运维人员。
+部署 OpenViking 需要准备模型访问、持久化存储和用户身份。下面先给出已安装服务端的初始化流程，再按本地、自建共享或企业交付选择完整步骤。
+
+## 初始化自建服务
+
+安装服务端并准备 Embedding、VLM 凭据后，在服务主机运行配置向导。用于团队访问时，配置持久化 workspace、监听地址和 `server.root_api_key`，再为业务调用创建用户密钥。
+
+```bash
+openviking-server init
+openviking-server doctor
+openviking-server
+```
+
+`doctor` 通过后启动服务，并从业务客户端完成[数据链路验收](03-deployment.md#data-path-check)。首次安装和用户创建的完整步骤分别见[服务端部署](03-deployment.md)和[认证](04-authentication.md)。已有服务地址与用户密钥时可直接[连接 CLI](../getting-started/05-cli-setup.md)。
+
+## 选择部署路径
 
 | 部署目标 | 阅读顺序 | 完成标准 |
 | --- | --- | --- |

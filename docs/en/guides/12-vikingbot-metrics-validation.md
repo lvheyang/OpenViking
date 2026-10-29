@@ -1,4 +1,6 @@
-# Validate Vikingbot metrics with real conversations
+<a id="validate-vikingbot-metrics-with-real-conversations"></a>
+
+# VikingBot metrics
 
 Use this guide after [setting up Prometheus and Grafana](11-grafana-prometheus.md) to check the complete path:
 
