@@ -1,6 +1,10 @@
-# 一条提示词接入 Agent
+<a id="一条提示词接入-agent"></a>
 
-把一条提示词粘贴给你正在用的编程 Agent。Agent 会在本机检测到的各个 Agent 里安装 OpenViking 记忆插件，检查连接，问你要不要导入近期工作，再告诉你怎么重启。重启后，你问的第一个问题就能用上 OpenViking。
+<a id="一键集成-agent"></a>
+
+# 一键接入
+
+通过一条提示词，将 OpenViking 接入你正在使用的编程 Agent。Agent 会在本机检测到的各个 Agent 里安装 OpenViking 记忆插件，检查连接，问你要不要导入近期工作，再告诉你怎么重启。重启后，你问的第一个问题就能用上 OpenViking。
 
 Agent 按一份简短的指南执行。指南以纯 Markdown 发布，任何 Agent 都能直接获取：
 

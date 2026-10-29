@@ -1,6 +1,10 @@
-# Connect your agent with one prompt
+<a id="connect-your-agent-with-one-prompt"></a>
 
-Paste one prompt into the coding agent you already use. The agent installs the OpenViking memory plugin into the agents it finds on your machine, checks the connection, offers to bring in your recent work, and tells you how to restart. After the restart, your first question shows OpenViking at work.
+<a id="one-click-agent-setup"></a>
+
+# One-click setup
+
+Connect OpenViking to your coding agent with a single prompt. The agent installs the OpenViking memory plugin into the agents it finds on your machine, checks the connection, offers to bring in your recent work, and tells you how to restart. After the restart, your first question shows OpenViking at work.
 
 The agent follows a short guide published as plain Markdown, so any agent can fetch it:
 
