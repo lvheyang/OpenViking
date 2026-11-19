@@ -417,6 +417,8 @@ def _generate_plugin_config(
         primary_plugin_config = {
             "local_dir": str(vikingfs_path),
         }
+    elif backend == "azure_blob":
+        primary_plugin_config = {"azure_blob": agfs_config.azure_blob.model_dump(exclude_none=True)}
     elif backend == "s3" and s3_config:
         primary_plugin_config = _serialize_s3_plugin_params(s3_config)
 
@@ -435,6 +437,8 @@ def _generate_plugin_config(
         plugin_name = "localfs"
     elif backend == "s3":
         plugin_name = "s3fs"
+    elif backend == "azure_blob":
+        plugin_name = "azureblobfs"
     elif backend == "memory":
         plugin_name = "memfs"
     else:
@@ -655,6 +659,10 @@ def _build_git_config_dict(git_config: Any, storage_path: Path) -> Dict[str, Any
                 sqlite_cfg["path"] = str(
                     storage_path / "_system" / "snapshot" / "log" / "snapshot_log.db"
                 )
+
+    if backend == "azure_blob":
+        result["azure_blob"] = git_config.azure_blob.model_dump(exclude_none=True)
+        return result
 
     if backend == "s3":
         s3_cfg = getattr(git_config, "s3", None)

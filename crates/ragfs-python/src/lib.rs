@@ -2195,6 +2195,8 @@ impl RAGFSBindingClient {
             ];
             #[cfg(feature = "s3")]
             features.push("s3fs");
+            #[cfg(feature = "azure")]
+            features.push("azureblobfs");
             m.insert(
                 "features".to_string(),
                 features.into_pyobject(py)?.into_any().unbind(),
@@ -2626,6 +2628,8 @@ impl RAGFSBindingClient {
         ];
         #[cfg(feature = "s3")]
         plugins.push("s3fs".to_string());
+        #[cfg(feature = "azure")]
+        plugins.push("azureblobfs".to_string());
         Ok(plugins)
     }
 

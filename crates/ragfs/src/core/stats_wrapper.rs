@@ -123,6 +123,17 @@ impl FileSystem for StatsWrappedFS {
         result
     }
 
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        options: super::ReadDirOptions,
+    ) -> Result<Vec<FileInfo>> {
+        let timer = OperationTimer::start(FsOperation::ReadDir, Arc::clone(&self.stats));
+        let result = self.inner.read_dir_with_options(path, options).await;
+        timer.finish(result.as_ref().err().map(|error| error.kind_name())).await;
+        result
+    }
+
     /// List internal directory entries without changing inner filesystem semantics.
     async fn read_internal_dir(&self, path: &str) -> Result<Vec<FileInfo>> {
         self.inner.read_internal_dir(path).await

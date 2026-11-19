@@ -19,6 +19,10 @@ pub struct GitConfig {
     pub local: Option<GitLocalConfig>,
     #[serde(default)]
     pub s3: Option<GitS3ConfigPy>,
+    #[cfg(feature = "azure")]
+    #[serde(default)]
+    /// Native Blob location for the Git object, ref and index stores.
+    pub azure_blob: Option<crate::plugins::azureblobfs::store::AzureConfig>,
 
     #[serde(default)]
     pub tuning: GitTuningConfig,

@@ -23,9 +23,7 @@ use crate::shape::SHAPE_MANIFEST_PATH;
 
 use super::context::FsContextView;
 use super::errors::{Error, Result};
-use super::filesystem::{
-    apply_read_dir_options, compile_grep_regex, normalize_prefix_path, paginate_entries, FileSystem,
-};
+use super::filesystem::{compile_grep_regex, normalize_prefix_path, paginate_entries, FileSystem};
 use super::types::{
     FileInfo, GlobPage, GrepOptions, GrepResult, ListSortBy, SortOrder, TreeEntry, WriteFlag,
 };
@@ -493,14 +491,26 @@ impl FileSystem for EncryptionWrappedFS {
         sort_by: Option<ListSortBy>,
         sort_order: Option<SortOrder>,
     ) -> Result<Vec<FileInfo>> {
-        let entries = self.inner.read_dir(path, None, None, None, None).await?;
-        let entries = entries
-            .into_iter()
-            .filter(|entry| entry.name != SHAPE_MANIFEST_PATH.trim_start_matches('/'))
-            .collect();
-        Ok(apply_read_dir_options(
-            entries, offset, limit, sort_by, sort_order,
-        ))
+        self.read_dir_with_options(
+            path,
+            super::ReadDirOptions {
+                offset,
+                limit,
+                sort_by,
+                sort_order,
+                ..Default::default()
+            },
+        )
+        .await
+    }
+
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        mut options: super::ReadDirOptions,
+    ) -> Result<Vec<FileInfo>> {
+        options.hide_shape_manifest = true;
+        self.inner.read_dir_with_options(path, options).await
     }
 
     /// List internal directory entries without changing inner filesystem semantics.

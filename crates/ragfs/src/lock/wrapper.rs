@@ -230,6 +230,14 @@ impl FileSystem for PathLockWrappedFS {
             .await
     }
 
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        options: crate::core::ReadDirOptions,
+    ) -> crate::core::Result<Vec<FileInfo>> {
+        self.inner.read_dir_with_options(path, options).await
+    }
+
     async fn stat(&self, path: &str) -> crate::core::Result<FileInfo> {
         self.inner.stat(path).await
     }

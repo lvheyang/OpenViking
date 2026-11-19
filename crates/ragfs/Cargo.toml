@@ -96,6 +96,11 @@ libloading = { version = "0.8", optional = true }
 native-tls = { version = "0.2", optional = true }
 sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "mysql"] }
 
+# Azure Blob Storage
+azure_storage_blob = { version = "1.1", default-features = false, features = ["tokio"], optional = true }
+azure_core = { version = "1", optional = true }
+azure_identity = { version = "1", optional = true }
+
 # AWS S3
 aws-config = { version = "1", features = ["behavior-version-latest"], optional = true }
 aws-sdk-s3 = { version = "1", optional = true }
@@ -149,4 +154,5 @@ cache = ["dep:fred", "dep:libloading", "dep:native-tls"]
 test-utils = []
 s3 = ["aws-sdk-s3", "aws-config", "aws-types"]
 postgres = ["dep:postgres", "dep:postgres-native-tls", "dep:native-tls"]
-full = ["s3", "cache", "postgres"]
+azure = ["dep:azure_storage_blob", "dep:azure_core", "dep:azure_identity"]
+full = ["azure", "s3", "cache", "postgres"]

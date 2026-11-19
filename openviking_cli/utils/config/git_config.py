@@ -6,6 +6,8 @@ from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, model_validator
 
+from .azure_blob_config import AzureBlobConfig
+
 
 class GitLocalConfig(BaseModel):
     """Configuration for the local git object backend."""
@@ -105,10 +107,10 @@ class GitConfig(BaseModel):
         default=True,
         description="Enable git-based multi-version management for VikingFS content.",
     )
-    backend: Literal["local", "s3"] = Field(
+    backend: Literal["local", "s3", "azure_blob"] = Field(
         default="local",
         description="Git object backend. 'local' stores objects on the local filesystem; "
-        "'s3' stores them on a remote S3-compatible bucket. When unset, defaults to "
+        "'s3' uses an S3-compatible bucket and 'azure_blob' uses native Azure Blob Storage. Defaults to "
         "the same backend as 'storage.agfs.backend' (a 'memory' storage backend maps "
         "to 'local').",
     )
@@ -128,6 +130,7 @@ class GitConfig(BaseModel):
         default_factory=GitLocalConfig,
         description="Configuration for the 'local' backend.",
     )
+    azure_blob: Optional[AzureBlobConfig] = None
     s3: Optional[GitS3Config] = Field(
         default=None,
         description="Configuration for the 's3' backend. Required when backend='s3'.",
@@ -140,6 +143,8 @@ class GitConfig(BaseModel):
     @model_validator(mode="after")
     def _validate_backend(self) -> "GitConfig":
         """Ensure the selected backend has the required configuration."""
+        if self.enabled and self.backend == "azure_blob" and self.azure_blob is None:
+            raise ValueError("git backend azure_blob requires git.azure_blob")
         if self.enabled and self.backend == "s3":
             if self.s3 is None:
                 raise ValueError("git backend 's3' requires a [git.s3] section")

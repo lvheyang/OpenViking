@@ -334,6 +334,20 @@ pub trait FileSystem: Send + Sync + Any {
         sort_order: Option<SortOrder>,
     ) -> Result<Vec<FileInfo>>;
 
+    /// Filter names, sort globally, then paginate visible directory entries.
+    ///
+    /// Wrappers preserve caller filters and add their own before delegating.
+    /// Backends can override this to hydrate metadata only for the selected page.
+    /// The fallback preserves existing backend behavior without requiring an override.
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        options: super::types::ReadDirOptions,
+    ) -> Result<Vec<FileInfo>> {
+        let entries = self.read_dir(path, None, None, None, None).await?;
+        Ok(options.apply(entries))
+    }
+
     /// List directory contents without public internal-name filtering.
     ///
     /// # Arguments

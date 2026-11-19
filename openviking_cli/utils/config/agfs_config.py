@@ -12,6 +12,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from openviking_cli.utils.logger import get_logger
 
+from .azure_blob_config import AzureBlobConfig
+
 logger = get_logger(__name__)
 
 
@@ -401,7 +403,7 @@ class AGFSConfig(BaseModel):
     )
 
     backend: str = Field(
-        default="local", description="RAGFS storage backend: 'local' | 's3' | 'memory'"
+        default="local", description="RAGFS storage backend: 'local' | 's3' | 'azure_blob' | 'memory'"
     )
 
     timeout: int = Field(default=10, description="RAGFS request timeout (seconds)")
@@ -454,6 +456,7 @@ class AGFSConfig(BaseModel):
     # S3 backend configuration
     # These settings are used when backend is set to 's3'.
     # RAGFS will act as a gateway to the specified S3 bucket.
+    azure_blob: Optional[AzureBlobConfig] = None
     s3: S3Config = Field(default_factory=lambda: S3Config(), description="S3 backend configuration")
 
     # Multi-write configuration
@@ -484,13 +487,19 @@ class AGFSConfig(BaseModel):
                     field_name,
                 )
 
-        if self.backend not in ["local", "s3", "memory"]:
+        if self.backend not in ["local", "s3", "memory", "azure_blob"]:
             raise ValueError(
-                f"Invalid RAGFS backend: '{self.backend}'. Must be one of: 'local', 's3', 'memory'"
+                f"Invalid RAGFS backend: '{self.backend}'. Must be one of: 'local', 's3', 'memory', 'azure_blob'"
             )
 
         if self.backend == "local":
             pass
+
+        elif self.backend == "azure_blob":
+            if self.azure_blob is None:
+                raise ValueError("azure_blob backend requires storage.agfs.azure_blob")
+            if self.backups is not None or self.cachefs.backend == "cache":
+                raise ValueError("azure_blob supports single-backend operation with local cachefs")
 
         elif self.backend == "s3":
             # Validate S3 configuration

@@ -66,6 +66,18 @@ pub fn build_git_service(
             };
             (os, rs, is)
         }
+        #[cfg(feature = "azure")]
+        "azure_blob" => {
+            let config = cfg.azure_blob.as_ref()
+                .ok_or_else(|| PyValueError::new_err("[git.azure_blob] missing"))?;
+            let store = Arc::new(
+                ragfs::plugins::azureblobfs::store::BlobStore::new(config)
+                    .map_err(|e| PyValueError::new_err(e.to_string()))?,
+            );
+            let index = cfg.tuning.commit_index_enabled
+                .then(|| store.clone() as Arc<dyn IndexStore>);
+            (store.clone(), store, index)
+        }
         #[cfg(feature = "s3")]
         "s3" => build_s3_service(cfg)?,
         #[cfg(not(feature = "s3"))]
@@ -763,6 +775,8 @@ mod tests {
                 base_dir: base_dir.into(),
             }),
             s3: None,
+            #[cfg(feature = "azure")]
+            azure_blob: None,
             tuning: Default::default(),
             snapshot: ragfs::git::GitSnapshotConfig {
                 log: ragfs::git::GitSnapshotLogConfig {

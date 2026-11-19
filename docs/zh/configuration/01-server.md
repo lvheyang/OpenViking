@@ -71,7 +71,7 @@ openviking-server --config /path/to/ov.conf
 | `compile_api` | object | disabled | 外部 Compile 任务 API |
 | `connector` | object | disabled | 外部 Connector 数据导入服务 |
 | `encryption` | object | disabled | 文件和敏感字段加密 |
-| `git` | object | local | 版本管理后端，可使用 `local` 或 `s3` |
+| `git` | object | local | 版本管理后端，可使用 `local`、`s3` 或 `azure_blob` |
 | `log` | object | 控制台日志 | 日志级别、格式和文件输出 |
 | `telemetry` | object | disabled | OpenTelemetry trace 上报 |
 | `oauth` | object | disabled | MCP OAuth 2.1 配置 |
@@ -294,7 +294,7 @@ Search 和 Find 请求的默认 `limit` 为 `10`，可以在每次 API 或 SDK �
 | 字段 | 类型 / 常用值 | 默认值 | 作用 |
 |---|---|---|---|
 | `workspace` | path | `"./data"` | OpenViking 工作目录 |
-| `agfs.backend` | `local`、`memory`、`s3` | `local` | 文件与元数据存储后端 |
+| `agfs.backend` | `local`、`memory`、`s3`、`azure_blob` | `local` | 文件与元数据存储后端 |
 | `agfs.pathlock.provider` | `filesystem`、`memory`、`sqlite`、`postgres`、`cache` | `filesystem` | 路径锁存储；`postgres` 直连 PostgreSQL，`cache` 使用 Redis |
 | `agfs.pathlock.sqlite_path` | 本地文件绝对路径 | 使用 `sqlite` 时为 `{workspace}/_system/pathlock/pathlock.db` | SQLite 共享锁数据库，可显式覆盖 |
 | `agfs.pathlock.postgres_dsn_env` | 环境变量名 / `null` | `null` | `postgres` 必填；指定服务进程中保存 PostgreSQL DSN 的环境变量名 |

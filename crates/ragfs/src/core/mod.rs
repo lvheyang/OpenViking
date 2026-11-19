@@ -44,5 +44,5 @@ pub use stats_wrapper::StatsWrappedFS;
 pub use types::{
     BackendItemConfig, BackendRole, BackendsConfig, ConfigParameter, ConfigValue, EncryptionConfig,
     FileInfo, GlobEntry, GlobPage, GrepMatch, GrepOptions, GrepResult, ListSortBy, PluginConfig,
-    SortOrder, TreeEntry, WriteFlag,
+    ReadDirOptions, SortOrder, TreeEntry, WriteFlag,
 };

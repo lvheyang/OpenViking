@@ -71,7 +71,7 @@ Optional sections use their defaults when omitted. Unknown fields in `ov.conf` a
 | `compile_api` | object | disabled | External Compile task API |
 | `connector` | object | disabled | External Connector ingestion service |
 | `encryption` | object | disabled | File and secret encryption |
-| `git` | object | local | Version backend: `local` or `s3` |
+| `git` | object | local | Version backend: `local`, `s3`, or `azure_blob` |
 | `log` | object | console | Log level, format, and file output |
 | `telemetry` | object | disabled | OpenTelemetry tracing |
 | `oauth` | object | disabled | MCP OAuth 2.1 |
@@ -302,7 +302,7 @@ Search and Find requests default to `limit: 10`; override the limit on each API 
 | Field | Type / common values | Default | Purpose |
 |---|---|---|---|
 | `workspace` | path | `"./data"` | OpenViking workspace |
-| `agfs.backend` | `local`, `memory`, `s3` | `local` | File and metadata backend |
+| `agfs.backend` | `local`, `memory`, `s3`, `azure_blob` | `local` | File and metadata backend |
 | `agfs.pathlock.provider` | `filesystem`, `memory`, `sqlite`, `postgres`, `cache` | `filesystem` | Path lock storage; `postgres` uses PostgreSQL directly, `cache` uses Redis |
 | `agfs.pathlock.sqlite_path` | absolute local file path | `{workspace}/_system/pathlock/pathlock.db` for `sqlite` | Shared SQLite lock database; optional override |
 | `agfs.pathlock.postgres_dsn_env` | environment variable name / `null` | `null` | Required for `postgres`; names the server environment variable containing the PostgreSQL DSN |

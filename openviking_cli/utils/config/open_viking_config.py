@@ -513,8 +513,15 @@ class OpenVikingConfig(BaseModel):
             agfs_backend = agfs.get("backend", "local")
             if agfs_backend == "memory":
                 agfs_backend = "local"
-            if agfs_backend in ("local", "s3"):
+            if agfs_backend in ("local", "s3", "azure_blob"):
                 git["backend"] = agfs_backend
+
+        if git.get("backend") == "azure_blob":
+            content = agfs.get("azure_blob") or {}
+            overrides = git.get("azure_blob") or {}
+            if isinstance(content, dict) and isinstance(overrides, dict):
+                options = {k: v for k, v in content.items() if k != "prefix"}
+                git["azure_blob"] = {**options, "prefix": "git", **overrides}
 
         if git.get("backend", "local") == "s3":
             agfs_s3 = agfs.get("s3", {})
@@ -530,6 +537,27 @@ class OpenVikingConfig(BaseModel):
         data = dict(data)
         data["git"] = git
         return data
+
+    @model_validator(mode="after")
+    def _validate_azure_prefixes(self) -> "OpenVikingConfig":
+        content = self.storage.agfs.azure_blob
+        snapshots = self.git.azure_blob
+        if (
+            self.storage.agfs.backend == self.git.backend == "azure_blob"
+            and self.git.enabled
+            and content is not None
+            and snapshots is not None
+            and content.container_location()[:-1] == snapshots.container_location()[:-1]
+        ):
+            if content.namespace != snapshots.namespace:
+                raise ValueError("Azure content and Git on one account must use the same namespace")
+            if content.container != snapshots.container:
+                return self
+            first = content.prefix + "/"
+            second = snapshots.prefix + "/"
+            if first.startswith(second) or second.startswith(first):
+                raise ValueError("Azure content and Git prefixes must be disjoint")
+        return self
 
     allow_private_networks: bool = Field(
         default=False,

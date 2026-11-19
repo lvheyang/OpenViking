@@ -365,6 +365,8 @@ async fn register_builtin_plugins_with_runtime(
     fs.register_plugin(ServerInfoFSPlugin::new()).await;
     #[cfg(feature = "s3")]
     fs.register_plugin(S3FSPlugin::new()).await;
+    #[cfg(feature = "azure")]
+    fs.register_plugin(crate::plugins::azureblobfs::AzurePlugin).await;
 }
 
 #[cfg(not(feature = "cache"))]
@@ -377,6 +379,8 @@ async fn register_builtin_plugins_without_runtime(fs: &MountableFS) {
     fs.register_plugin(ServerInfoFSPlugin::new()).await;
     #[cfg(feature = "s3")]
     fs.register_plugin(S3FSPlugin::new()).await;
+    #[cfg(feature = "azure")]
+    fs.register_plugin(crate::plugins::azureblobfs::AzurePlugin).await;
 }
 
 #[cfg(test)]

@@ -1585,13 +1585,14 @@ Connector 导入没有本地 Work，其 Task 会成为 failed，再结算 Watch 
 
 | 参数 | 类型 | 说明 | 默认值 |
 |------|------|------|--------|
-| `backend` | str | `"local"`、`"s3"` 或 `"memory"` | `"local"` |
+| `backend` | str | `"local"`、`"s3"`、`"azure_blob"` 或 `"memory"` | `"local"` |
 | `timeout` | float | 请求超时时间（秒） | `10.0` |
 | `backups` | object | 多写存储配置。配置后顶层 `backend` 作为 primary，`backups.items[]` 作为 backup | `null` |
 | `coordination` | object | Watch 选主和语义任务 revision | `{"provider":"memory"}` |
 | `queuefs` | object | QueueFS 配置。控制 `/queue` 的命名空间模式、后端和运行时参数 | `{ "mode": "shared", "backend": "sqlite", "recover_stale_sec": 0, "busy_timeout_ms": 5000 }` |
 | `queue_db_path` | str（可选）| 旧版兼容字段，用于覆盖 QueueFS 的 sqlite 数据库文件路径。已被 `storage.agfs.queuefs.db_path` 取代。未设置时默认为 `{storage.workspace}/_system/queue/queue.db`。适用于 workspace 卷不支持 sqlite 的场景（例如某些网络文件系统） | `null` |
 | `s3` | object | S3 后端配置（`backend=s3` 时使用） | - |
+| `azure_blob` | object | Azure 账户、容器和前缀；`namespace` 选择普通 Blob（`flat`，默认）或 HNS（`hns`）。支持托管身份和本地 Azure CLI 认证。见 [Azure Blob 部署与验收](./27-azure-blob.md) | - |
 
 
 **配置示例**

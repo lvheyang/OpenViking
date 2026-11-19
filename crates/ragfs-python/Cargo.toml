@@ -13,7 +13,8 @@ name = "ragfs_python"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["extension-module", "s3"]
+default = ["extension-module", "s3", "azure"]
+azure = ["ragfs/azure"]
 extension-module = ["pyo3/extension-module"]
 s3 = ["ragfs/s3"]
 

@@ -10,7 +10,6 @@ from pathlib import Path
 
 import pytest
 
-
 # Skip the whole module if the native extension is not built locally.
 ragfs_python = pytest.importorskip("ragfs_python")
 
@@ -42,6 +41,9 @@ author_email = "test@example.com"
 
 [git.local]
 base_dir = "{git_root}"
+
+[git.snapshot.log.sqlite]
+path = "{root / "snapshot-log.db"}"
 """
     )
 
@@ -327,8 +329,10 @@ def test_cas_conflict_surface(client):
 
     t1 = threading.Thread(target=do_commit, args=("resources/a.md",))
     t2 = threading.Thread(target=do_commit, args=("resources/b.md",))
-    t1.start(); t2.start()
-    t1.join(); t2.join()
+    t1.start()
+    t2.start()
+    t1.join()
+    t2.join()
 
     # The LocalRefStore mutex + CAS may serialize the two so well that the
     # second sees the new parent and the conflict never surfaces. In that case

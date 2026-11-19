@@ -1604,13 +1604,14 @@ wait up to 10 seconds and then fail with a retryable busy error.
 
 | Parameter | Type | Description | Default |
 |-----------|------|-------------|---------|
-| `backend` | str | `"local"`, `"s3"`, or `"memory"` | `"local"` |
+| `backend` | str | `"local"`, `"s3"`, `"azure_blob"`, or `"memory"` | `"local"` |
 | `timeout` | float | Request timeout in seconds | `10.0` |
 | `backups` | object | Multi-write storage configuration. When set, the top-level `backend` acts as the primary backend and `backups.items[]` defines backup backends | `null` |
 | `coordination` | object | Watch leadership and semantic task revisions | `{"provider":"memory"}` |
 | `queuefs` | object | QueueFS configuration. Controls the namespace mode, backend, and runtime options for `/queue` | `{ "mode": "shared", "backend": "sqlite", "recover_stale_sec": 0, "busy_timeout_ms": 5000 }` |
 | `queue_db_path` | str (optional) | Legacy compatibility field for QueueFS sqlite DB path. Superseded by `storage.agfs.queuefs.db_path`. Defaults to `{storage.workspace}/_system/queue/queue.db` when not set. Useful when the workspace volume does not support sqlite (e.g. some network filesystems) | `null` |
 | `s3` | object | S3 backend configuration (when backend is 's3') | - |
+| `azure_blob` | object | Azure account, container, and prefix; `namespace` selects ordinary Blob (`flat`, default) or HNS (`hns`). Supports managed identity and local Azure CLI authentication. See [Azure Blob deployment and acceptance](./27-azure-blob.md) | - |
 
 **Configuration Examples**
 

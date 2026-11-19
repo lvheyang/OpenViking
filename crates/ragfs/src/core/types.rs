@@ -28,6 +28,42 @@ pub enum SortOrder {
     Desc,
 }
 
+/// Directory selection passed through wrappers before backend metadata hydration.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct ReadDirOptions {
+    /// Number of visible, sorted entries to skip.
+    pub offset: Option<usize>,
+    /// Maximum number of visible entries to return.
+    pub limit: Option<usize>,
+    /// Sort field; absent means directory-first, case-insensitive name order.
+    pub sort_by: Option<ListSortBy>,
+    /// Sort direction; directories remain before files in either direction.
+    pub sort_order: Option<SortOrder>,
+    /// Hide runtime lock files and legacy multi-write metadata.
+    pub hide_internal: bool,
+    /// Hide the backend shape manifest, as required by the encryption wrapper.
+    pub hide_shape_manifest: bool,
+}
+
+impl ReadDirOptions {
+    pub(crate) fn includes(&self, name: &str) -> bool {
+        !(self.hide_internal && super::internal_names::is_hidden_internal_name(name)
+            || self.hide_shape_manifest
+                && name == crate::shape::SHAPE_MANIFEST_PATH.trim_start_matches('/'))
+    }
+
+    pub(crate) fn apply(&self, mut entries: Vec<FileInfo>) -> Vec<FileInfo> {
+        entries.retain(|entry| self.includes(&entry.name));
+        super::filesystem::apply_read_dir_options(
+            entries,
+            self.offset,
+            self.limit,
+            self.sort_by,
+            self.sort_order,
+        )
+    }
+}
+
 /// Options for a grep operation.
 #[derive(Debug, Clone, Copy)]
 pub struct GrepOptions<'a> {

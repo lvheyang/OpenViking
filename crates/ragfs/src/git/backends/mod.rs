@@ -1,5 +1,7 @@
 //! Git storage backends
 
+#[cfg(feature = "azure")]
+pub mod azure;
 pub mod local;
 
 #[cfg(feature = "s3")]

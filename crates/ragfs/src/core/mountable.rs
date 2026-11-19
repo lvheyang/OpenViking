@@ -24,8 +24,7 @@ use super::internal_names::is_hidden_internal_name;
 use super::encryption_wrapper::EncryptionWrappedFS;
 use super::errors::{Error, Result};
 use super::filesystem::{
-    apply_read_dir_options, paginate_entries, sort_directory_entries, validate_virtual_path,
-    FileSystem,
+    paginate_entries, sort_directory_entries, validate_virtual_path, FileSystem,
 };
 use super::multibackend_wrapper::MultiWriteWrappedFS;
 use super::plugin::ServicePlugin;
@@ -106,7 +105,7 @@ impl MountableFS {
     /// semantics (`replace(temp, final)`). Keep this gate at the wrapper
     /// creation entrypoint so unsupported backends fail fast before mounting.
     fn supports_encrypted_publish(plugin_name: &str) -> bool {
-        matches!(plugin_name, "localfs" | "s3fs" | "memfs")
+        matches!(plugin_name, "localfs" | "s3fs" | "azureblobfs" | "memfs")
     }
 
     /// Return the raw backend for one mounted path when raw access is supported.
@@ -853,6 +852,14 @@ impl FileSystem for ArcFileSystem {
             .await
     }
 
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        options: super::ReadDirOptions,
+    ) -> Result<Vec<FileInfo>> {
+        self.0.read_dir_with_options(path, options).await
+    }
+
     /// List internal directory entries without changing inner filesystem semantics.
     async fn read_internal_dir(&self, path: &str) -> Result<Vec<FileInfo>> {
         self.0.read_internal_dir(path).await
@@ -1006,16 +1013,30 @@ impl FileSystem for MountableFS {
         sort_by: Option<crate::core::ListSortBy>,
         sort_order: Option<crate::core::SortOrder>,
     ) -> Result<Vec<FileInfo>> {
+        self.read_dir_with_options(
+            path,
+            super::ReadDirOptions {
+                offset,
+                limit,
+                sort_by,
+                sort_order,
+                ..Default::default()
+            },
+        )
+        .await
+    }
+
+    async fn read_dir_with_options(
+        &self,
+        path: &str,
+        mut options: super::ReadDirOptions,
+    ) -> Result<Vec<FileInfo>> {
         let (mount_info, rel_path) = self.find_mount(path).await?;
-        let mut entries = mount_info
+        options.hide_internal = true;
+        mount_info
             .fs
-            .read_dir(&rel_path, None, None, None, None)
-            .await?;
-        entries.retain(|entry| !is_hidden_internal_name(&entry.name));
-        sort_directory_entries(&mut entries);
-        Ok(apply_read_dir_options(
-            entries, offset, limit, sort_by, sort_order,
-        ))
+            .read_dir_with_options(&rel_path, options)
+            .await
     }
 
     async fn read_internal_dir(&self, path: &str) -> Result<Vec<FileInfo>> {

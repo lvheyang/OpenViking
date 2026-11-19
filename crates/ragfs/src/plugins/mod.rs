@@ -2,6 +2,8 @@
 //!
 //! This module contains all built-in filesystem plugins.
 
+#[cfg(feature = "azure")]
+pub mod azureblobfs;
 pub mod kvfs;
 pub mod localfs;
 pub mod memfs;
